@@ -50,7 +50,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             token,
             FlexSendMessage(
-                alt_text = '',
+                alt_text = 'WAITERIAN',
                 contents = carousel_images
             )
         )
