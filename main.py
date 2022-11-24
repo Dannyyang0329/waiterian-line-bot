@@ -9,7 +9,11 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
+)
+
+from flex_message import (
+    carousel_images
 )
 
 app = Flask(__name__)
@@ -41,6 +45,15 @@ def callback():
 def handle_message(event):
     token = event.reply_token
     msg = event.message.text
+
+    if msg == 'WAITERIAN':
+        line_bot_api.reply_message(
+            token,
+            FlexSendMessage(
+                alt_text = '',
+                contents = carousel_images
+            )
+        )
 
     if msg == 'FOOD':
         line_bot_api.reply_message(token, TextSendMessage(text='I get FOOD'))
