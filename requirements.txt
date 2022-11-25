@@ -2,4 +2,4 @@ flask
 line-bot-sdk
 python-dotenv
 gunicorn
-
+psycopg2-binary

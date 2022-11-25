@@ -16,10 +16,13 @@ from flex_message import (
     carousel_images
 )
 
+
+
 app = Flask(__name__)
 
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN', default=''))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', default=''))
+
 
 
 @app.route("/callback", methods=['POST'])
@@ -46,6 +49,7 @@ def handle_message(event):
     token = event.reply_token
     msg = event.message.text
 
+    # idle state
     if msg == 'WAITERIAN':
         line_bot_api.reply_message(
             token,
