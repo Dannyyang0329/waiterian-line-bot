@@ -1,4 +1,4 @@
-def get_carousel_images():
+def get_carousel_images_json():
     carousel_images = {
         "type": "carousel",
         "contents": [
@@ -50,7 +50,7 @@ def get_carousel_images():
 
 # ============================================================================
 
-def get_single_restaurant(image_url, name, grade, price_level, address, web_url):
+def get_single_restaurant_json(image_url, name, grade, price_level, address, web_url):
     whole_star_url = 'https://i.imgur.com/XOV82JN.png'
     empty_star_url = 'https://i.imgur.com/1HeQOqo.png'
     dollar_url = 'https://i.imgur.com/5UfyD1N.png'

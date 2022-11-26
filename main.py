@@ -13,7 +13,7 @@ from linebot.models import (
 )
 
 from flex_message import (
-    get_carousel_images, get_single_restaurant
+    get_carousel_images_json, get_single_restaurant_json
 )
 
 from database_control import (
@@ -82,7 +82,7 @@ def handle_message(event):
             token,
             FlexSendMessage(
                 alt_text = 'WAITERIAN',
-                contents = get_carousel_images()
+                contents = get_carousel_images_json()
             )
         )
 
@@ -98,12 +98,12 @@ def handle_message(event):
             token, 
             FlexSendMessage(
                 alt_text = "RESTAURANT", 
-                contents = get_single_restaurant (
+                contents = get_single_restaurant_json (
                     get_restaurant_photo(response),
-                    response.name,
-                    response.rating,
-                    response.price_level,
-                    response.vicinity,
+                    response['name'],
+                    response['rating'],
+                    response['price_level'],
+                    response['vicinity'],
                     get_restaurant_url(response)
                 )
             )
