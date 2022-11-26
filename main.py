@@ -1,4 +1,5 @@
 import os
+import random
 from flask import Flask, request, abort
 from dotenv import load_dotenv
 
@@ -92,7 +93,8 @@ def handle_message(event):
             22.993,
             120.219,
             1000,
-        )[0]
+        )
+        response = response[(random.randrange(0, len(response)))]
 
         line_bot_api.reply_message(
             token, 
