@@ -13,13 +13,16 @@ from linebot.models import (
 )
 
 from flex_message import (
-    carousel_images
+    get_carousel_images, get_single_restaurant
 )
 
 from database_control import (
     insert_data, select_data, find_data, update_state, delete_data
 )
 
+from restaurant_query import (
+    get_restaurant, get_restaurant_photo, get_restaurant_url
+)
 
 
 app = Flask(__name__)
@@ -79,12 +82,32 @@ def handle_message(event):
             token,
             FlexSendMessage(
                 alt_text = 'WAITERIAN',
-                contents = carousel_images
+                contents = get_carousel_images()
             )
         )
 
     if msg == 'FOOD':
-        line_bot_api.reply_message(token, TextSendMessage(text='I get FOOD'))
+        # line_bot_api.reply_message(token, TextSendMessage(text='I get FOOD'))
+        response = get_restaurant (
+            22.993,
+            120.219,
+            1000,
+        )[0]
+
+        line_bot_api.reply_message(
+            token, 
+            FlexSendMessage(
+                alt_text = "RESTAURANT", 
+                contents = get_single_restaurant (
+                    get_restaurant_photo(response),
+                    response.name,
+                    response.rating,
+                    response.price_level,
+                    response.vicinity,
+                    get_restaurant_url(response)
+                )
+            )
+        )
     if msg == 'ROULETTE':
         line_bot_api.reply_message(token, TextSendMessage(text='I get ROULETTE'))
     if msg == 'INFORMATION':
