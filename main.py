@@ -49,17 +49,17 @@ def callback():
 
 def get_state(event):
     if event.source.type == 'user':
-        data = find_data(event.source.userId)
+        data = find_data(event.source.user_id)
         if len(data) == 0:
-            new_data = ('user', event.srouce.userId, 'idle')
+            new_data = ('user', event.source.user_id, 'idle')
             insert_data(new_data)
             return 'idle'
         else:
             return data[0][3]
     if event.source.type == 'group':
-        data = find_data(event.source.groupId)
+        data = find_data(event.source.group_id)
         if len(data) == 0:
-            new_data = ('group', event.srouce.groupId, 'idle')
+            new_data = ('group', event.source.group_id, 'idle')
             insert_data(new_data)
             return 'idle'
         else:
