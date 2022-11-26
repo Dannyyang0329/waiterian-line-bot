@@ -39,7 +39,7 @@ def get_restaurant_url(restaurant):
     return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}&query_place_id={id}"
 
 # restaurant = get_restaurant(22.993, 120.219, 500)[0]
-# print(restaurant['vicinity'])
+# print(restaurant['rating'])
 # print()
 # print()
 #

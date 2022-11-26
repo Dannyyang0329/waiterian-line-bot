@@ -83,31 +83,31 @@ def get_single_restaurant_json(image_url, name, grade, price_level, address, web
                         {
                             "type": "icon",
                             "size": "sm",
-                            "url": whole_star_url# if (grade >= 1) else empty_star_url
+                            "url": whole_star_url if (grade >= 1) else empty_star_url
                         },
                         {
                             "type": "icon",
                             "size": "sm",
-                            "url": whole_star_url# if (grade >= 2) else empty_star_url
+                            "url": whole_star_url if (grade >= 2) else empty_star_url
                         },
                         {
                             "type": "icon",
                             "size": "sm",
-                            "url": whole_star_url# if (grade >= 3) else empty_star_url
+                            "url": whole_star_url if (grade >= 3) else empty_star_url
                         },
                         {
                             "type": "icon",
                             "size": "sm",
-                            "url": whole_star_url# if (grade >= 4) else empty_star_url
+                            "url": whole_star_url if (grade >= 4) else empty_star_url
                         },
                         {
                             "type": "icon",
                             "size": "sm",
-                            "url": whole_star_url# if (grade >= 5) else empty_star_url
+                            "url": whole_star_url if (grade >= 5) else empty_star_url
                         },
                         {
                             "type": "text",
-                            "text": grade,
+                            "text": str(grade),
                             "size": "sm",
                             "color": "#999999",
                             "margin": "md",
@@ -116,26 +116,26 @@ def get_single_restaurant_json(image_url, name, grade, price_level, address, web
                         {
                             "type": "icon",
                             "size": "xs",
-                            "url": dollar_url,# if (price_level >= 1) else background_url,
-                            "offsetStart": "xxl"
+                            "offsetStart": "xxl",
+                            "url": dollar_url if (price_level >= 1) else background_url
                         },
                         {
                             "type": "icon",
                             "size": "xs",
-                            "url": dollar_url,# if (price_level >= 2) else background_url,
-                            "offsetStart": "xxl"
+                            "offsetStart": "xxl",
+                            "url": dollar_url if (price_level >= 2) else background_url
                         },
                         {
                             "type": "icon",
                             "size": "xs",
-                            "url": dollar_url,# if (price_level >= 3) else background_url,
-                            "offsetStart": "xxl"
+                            "offsetStart": "xxl",
+                            "url": dollar_url if (price_level >= 3) else background_url
                         },
                         {
                             "type": "icon",
                             "size": "xs",
-                            "url": dollar_url,# if (price_level >= 4) else background_url,
-                            "offsetStart": "xxl"
+                            "offsetStart": "xxl",
+                            "url": dollar_url if (price_level >= 4) else background_url
                         }
                     ]
                 },
