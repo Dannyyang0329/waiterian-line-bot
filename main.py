@@ -24,7 +24,6 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN', default=''))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', default=''))
 
 
-
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -65,6 +64,10 @@ def handle_message(event):
         line_bot_api.reply_message(token, TextSendMessage(text='I get ROULETTE'))
     if msg == 'INFORMATION':
         line_bot_api.reply_message(token, TextSendMessage(text='I get INFORMATION'))
+    if msg == 'ID':
+        line_bot_api.reply_message(token, TextSendMessage(text=f'User ID: {event.source.userId}'))
+        line_bot_api.reply_message(token, TextSendMessage(text=f'Group ID: {event.source.groupId}'))
+
 
 
 
