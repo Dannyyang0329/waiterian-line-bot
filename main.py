@@ -16,6 +16,10 @@ from flex_message import (
     carousel_images
 )
 
+from database_control import (
+    insert_data, select_data, find_data, update_state, delete_data
+)
+
 
 
 app = Flask(__name__)
@@ -43,10 +47,31 @@ def callback():
     return 'OK'
 
 
+def get_state(event):
+    if event.source.type == 'user':
+        data = find_data(event.source.userId)
+        if len(data) == 0:
+            new_data = ('user', event.srouce.userId, 'idle')
+            insert_data(new_data)
+            return 'idle'
+        else:
+            return data[0][3]
+    if event.source.type == 'group':
+        data = find_data(event.source.groupId)
+        if len(data) == 0:
+            new_data = ('group', event.srouce.groupId, 'idle')
+            insert_data(new_data)
+            return 'idle'
+        else:
+            return data[0][3]
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     token = event.reply_token
     msg = event.message.text
+
+    cur_state = get_state(event)
 
     # idle state
     if msg == 'WAITERIAN':
@@ -63,14 +88,11 @@ def handle_message(event):
     if msg == 'ROULETTE':
         line_bot_api.reply_message(token, TextSendMessage(text='I get ROULETTE'))
     if msg == 'INFORMATION':
-        line_bot_api.reply_message(token, TextSendMessage(text='I get INFORMATION'))
-    if msg == 'ID':
-        print(event)
-        # line_bot_api.reply_message(token, TextSendMessage(text=f'User ID: {event.source.userId}'))
-        # line_bot_api.reply_message(token, TextSendMessage(text=f'Group ID: {event.source.groupId}'))
-
-
-
+        info = f"""
+            Type: {event.source.type}
+            State:{cur_state}
+        """
+        line_bot_api.reply_message(token, TextSendMessage(text=info))
 
 
 if __name__ == "__main__":

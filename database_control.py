@@ -10,6 +10,7 @@ def create_state_table():
     create_table_query = '''
         CREATE TABLE state_table(
             id     serial   PRIMARY KEY,
+            type   VARCHAR  NOT NULL,
             name   VARCHAR  NOT NULL,
             state  VARCHAR  NOT NULL
         );
@@ -22,18 +23,28 @@ def create_state_table():
     conn.close()
 
 
-def insert_data(record, is_many):
+def drop_state_table():
     conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require')
     cursor = conn.cursor()
 
-    table_columns = '(name, state)'
-    postgres_insert_query = f"""INSERT INTO state_table {table_columns} VALUES (%s,%s)"""
+    drop_table_query = f"DROP TABLE state_table"
+    cursor.execute(drop_table_query)
+    conn.commit()
+    print("Drop state table successfully")
+
+    cursor.close()
+    conn.close()
+
+
+
+def insert_data(record):
+    conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require')
+    cursor = conn.cursor()
+
+    table_columns = '(type, name, state)'
+    postgres_insert_query = f"""INSERT INTO state_table {table_columns} VALUES (%s,%s,%s)"""
     cursor.execute(postgres_insert_query, record);
 
-    if is_many:
-        cursor.executemany(postgres_insert_query, record)
-    else:
-        cursor.execute(postgres_insert_query, record)
     print(cursor.rowcount, "Record inserted successfully into database")
     conn.commit()
 
@@ -47,10 +58,29 @@ def select_data():
 
     postgres_select_query = f"""SELECT * FROM state_table"""
     cursor.execute(postgres_select_query)
-    print(cursor.fetchall())
+
+    res = cursor.fetchall()
 
     cursor.close()
     conn.close()
+
+    return res
+
+
+def find_data(name):
+    conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require')
+    cursor = conn.cursor()
+
+    postgres_find_query = f"""SELECT * FROM state_table WHERE name = %s"""
+    cursor.execute(postgres_find_query, (name,))
+    conn.commit()
+
+    res = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+
+    return res
 
 
 def update_state(name, new_state):
@@ -80,6 +110,9 @@ def delete_data(name):
     cursor.close()
     conn.close()
 
-load_dotenv()
-delete_data('my_id')
-select_data()
+
+# load_dotenv()
+# drop_state_table()
+# create_state_table()
+# print(select_data())
+
