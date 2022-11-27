@@ -238,6 +238,40 @@ def handle_message(event):
             update_state(get_id(event), 'state', 'idle')
             line_bot_api.reply_message(token, TextSendMessage(text='Searching'))
 
+    # get_location state
+    if cur_state == 'get_location':
+        if event.message.type == 'location':
+            update_state(get_id(event), 'lat', event.message.latitude)
+            update_state(get_id(event), 'lng', event.message.longitude)
+            update_state(get_id(event), 'state', 'search_filter')
+            line_bot_api.reply_message(token, TextSendMessage(text='設定位置訊息成功!'))
+
+    # get_radius state
+    if cur_state == 'get_radius':
+        if event.message.type == 'text':
+            tmp = msg.split(" ")
+            if len(tmp) > 1 and tmp[0] == '>>':
+                update_state(get_id(event), 'radius', int(tmp[1]))
+                update_state(get_id(event), 'state', 'search_filter')
+                line_bot_api.reply_message(token, TextSendMessage(text='設定搜索半徑成功!'))
+
+    # get_price state
+    if cur_state == 'get_price':
+        if event.message.type == 'text':
+            tmp = msg.split(" ")
+            if len(tmp) > 1 and tmp[0] == '>>':
+                update_state(get_id(event), 'price', int(tmp[1]))
+                update_state(get_id(event), 'state', 'search_filter')
+                line_bot_api.reply_message(token, TextSendMessage(text='設定價錢標準成功!'))
+
+    # get_keyword state
+    if cur_state == 'get_keyword':
+        if event.message.type == 'text':
+            tmp = msg.split(" ")
+            if len(tmp) > 1 and tmp[0] == '>>':
+                update_state(get_id(event), 'keyword', tmp[1])
+                update_state(get_id(event), 'state', 'search_filter')
+                line_bot_api.reply_message(token, TextSendMessage(text='設定關鍵字成功!'))
 
 
         # line_bot_api.reply_message(token, TextSendMessage(text='I get FOOD'))
