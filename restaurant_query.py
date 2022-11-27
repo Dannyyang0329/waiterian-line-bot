@@ -4,10 +4,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_restaurant(lat, lng, radius, keyword=''):
+def get_restaurant(lat, lng, radius=3000, min_price=0, keyword=''):
     search_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     search_url += f"key={os.getenv('GOOGLE_API_TOKEN', default='')}&"
     search_url += f"location={lat},{lng}&"
+    search_url += f"minprice={min_price}&"
     search_url += f"radius={radius}&"
     search_url += "type=food|restaurant&"
     search_url += "opennow=true&"
@@ -38,8 +39,9 @@ def get_restaurant_url(restaurant):
     id = restaurant['place_id']
     return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}&query_place_id={id}"
 
-# restaurant = get_restaurant(22.993, 120.219, 500)[0]
-# print(restaurant['rating'])
+# load_dotenv()
+# restaurant = get_restaurant(22.993, 120.219, min_price=3, radius=50000)
+# print(restaurant)
 # print()
 # print()
 #

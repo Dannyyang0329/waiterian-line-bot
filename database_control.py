@@ -12,9 +12,15 @@ def create_state_table():
             id     serial   PRIMARY KEY,
             type   VARCHAR  NOT NULL,
             name   VARCHAR  NOT NULL,
-            state  VARCHAR  NOT NULL
+            state  VARCHAR  NOT NULL,
+            lat    FLOAT(8),
+            lng    FLOAT(8),
+            radius INT,
+            min_p  INT,
+            key_w  VARCHAR
         );
     '''
+
     cursor.execute(create_table_query)
     conn.commit()
     print("Create state table successfully")
@@ -34,7 +40,6 @@ def drop_state_table():
 
     cursor.close()
     conn.close()
-
 
 
 def insert_data(record):
@@ -83,15 +88,40 @@ def find_data(name):
     return res
 
 
-def update_state(name, new_state):
+def update_state(name, type, value):
     conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require')
     cursor = conn.cursor()
 
-    postgres_update_query = f"""UPDATE state_table set state = %s WHERE name = %s"""
-    cursor.execute(postgres_update_query, (new_state, name))
-    conn.commit()
-
-    print(f"The state of 'ID {name}' is set to '{new_state}'")
+    if type == 'state':
+        postgres_update_query = f"""UPDATE state_table set state = %s WHERE name = %s"""
+        cursor.execute(postgres_update_query, (value, name))
+        conn.commit()
+        print(f"The state of 'ID {name}' is set to '{value}'")
+    if type == 'lat':
+        postgres_update_query = f"""UPDATE state_table set lat = %s WHERE name = %s"""
+        cursor.execute(postgres_update_query, (value, name))
+        conn.commit()
+        print(f"The lat of 'ID {name}' is set to '{value}'")
+    if type == 'lng':
+        postgres_update_query = f"""UPDATE state_table set lng = %s WHERE name = %s"""
+        cursor.execute(postgres_update_query, (value, name))
+        conn.commit()
+        print(f"The lng of 'ID {name}' is set to '{value}'")
+    if type == 'radius':
+        postgres_update_query = f"""UPDATE state_table set radius = %s WHERE name = %s"""
+        cursor.execute(postgres_update_query, (value, name))
+        conn.commit()
+        print(f"The radius of 'ID {name}' is set to '{value}'")
+    if type == 'min_p':
+        postgres_update_query = f"""UPDATE state_table set min_p = %s WHERE name = %s"""
+        cursor.execute(postgres_update_query, (value, name))
+        conn.commit()
+        print(f"The min price of 'ID {name}' is set to '{value}'")
+    if type == 'key_w':
+        postgres_update_query = f"""UPDATE state_table set key_w = %s WHERE name = %s"""
+        cursor.execute(postgres_update_query, (value, name))
+        conn.commit()
+        print(f"The keyword of 'ID {name}' is set to '{value}'")
     
     cursor.close()
     conn.close()
@@ -114,5 +144,17 @@ def delete_data(name):
 # load_dotenv()
 # drop_state_table()
 # create_state_table()
+# record = ('user', 'my_name', 'my_state')
+# insert_data(record)
+# update_state('my_name', 'lat', 22.345)
+# update_state('my_name', 'lng', 122.345)
+# update_state('my_name', 'radius', 1500)
+# update_state('my_name', 'min_p', 2)
+# update_state('my_name', 'key_w', 'beef')
+# delete_data('my_name')
+
+# print(find_data('my_name'))
+# print(type(find_data('my_name')))
+
 # print(select_data())
 
