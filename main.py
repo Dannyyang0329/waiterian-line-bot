@@ -214,7 +214,10 @@ def show_all_setting(event):
 
 @handler.add(MessageEvent)#, message=TextMessage)
 def handle_message(event):
-    msg = event.message.text
+    msg = ''
+    if event.message.type == 'text':
+        msg = event.message.text
+
     token = event.reply_token
 
     cur_state = get_state(event)
@@ -242,6 +245,27 @@ def handle_message(event):
         if msg == '開始搜尋':
             update_state(get_id(event), 'state', 'idle')
             line_bot_api.reply_message(token, TextSendMessage(text='Searching'))
+            data = find_data(get_id(event))[0]
+            response = get_restaurant (
+                data[4], data[5], data[6], data[7], data[8]
+            )
+            response = response[(random.randrange(0, len(response)))]
+            
+            line_bot_api.reply_message(
+                token, 
+                FlexSendMessage(
+                    alt_text = "RESTAURANT", 
+                    contents = get_single_restaurant_json (
+                        get_restaurant_photo(response),
+                        response['name'],
+                        response['rating'],
+                        response['price_level'],
+                        response['vicinity'],
+                        get_restaurant_url(response)
+                    )
+                )
+            )
+
 
     # get_location state
     if cur_state == 'get_location':
@@ -280,28 +304,6 @@ def handle_message(event):
                 line_bot_api.reply_message(token, TextSendMessage(text='設定關鍵字成功!'))
 
 
-        # line_bot_api.reply_message(token, TextSendMessage(text='I get FOOD'))
-        # response = get_restaurant (
-        #     22.993,
-        #     120.219,
-        #     1000,
-        # )
-        # response = response[(random.randrange(0, len(response)))]
-        #
-        # line_bot_api.reply_message(
-        #     token, 
-        #     FlexSendMessage(
-        #         alt_text = "RESTAURANT", 
-        #         contents = get_single_restaurant_json (
-        #             get_restaurant_photo(response),
-        #             response['name'],
-        #             response['rating'],
-        #             response['price_level'],
-        #             response['vicinity'],
-        #             get_restaurant_url(response)
-        #         )
-        #     )
-        # )
     if msg == 'ROULETTE':
         line_bot_api.reply_message(token, TextSendMessage(text='I get ROULETTE'))
     if msg == 'INFORMATION':
