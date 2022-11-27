@@ -10,7 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, QuickReply, QuickReplyButton, LocationAction
+    MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, QuickReply, QuickReplyButton, LocationAction, MessageAction
 )
 
 from flex_message import (
@@ -122,16 +122,16 @@ def show_radius_message(event):
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(
-                        action=LocationAction(label=">> 500")
+                        action=MessageAction(label="500m",text=">> 500")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 1000")
+                        action=MessageAction(label="1000m",text=">> 1000")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 1500")
+                        action=MessageAction(label="1500m",text=">> 1500")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 2000")
+                        action=MessageAction(label="2000m",text=">> 2000")
                     ),
                 ]
             )
@@ -148,16 +148,16 @@ def show_price_message(event):
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(
-                        action=LocationAction(label=">> 0")
+                        action=MessageAction(label="LV 0",text=">> 0")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 1")
+                        action=MessageAction(label="LV 1",text=">> 1")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 2")
+                        action=MessageAction(label="LV 2",text=">> 2")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 3")
+                        action=MessageAction(label="LV 3",text=">> 3")
                     ),
                 ]
             )
@@ -174,19 +174,19 @@ def show_keyword_message(event):
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(
-                        action=LocationAction(label=">> 日式")
+                        action=MessageAction(label="日式",text=">> 日式")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 美式")
+                        action=MessageAction(label="美式",text=">> 美式")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 台式")
+                        action=MessageAction(label="台式",text=">> 台式")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 泰式")
+                        action=MessageAction(label="泰式",text=">> 泰式")
                     ),
                     QuickReplyButton(
-                        action=LocationAction(label=">> 韓式")
+                        action=MessageAction(label="韓式",text=">> 韓式")
                     ),
                 ]
             )
@@ -196,10 +196,15 @@ def show_keyword_message(event):
 
 def show_all_setting(event):
     data = find_data(get_id(event))
-    setting_str = f"Lat :        {data[4]}\n"
+    radius = 3000 if data[6] is None else data[6]
+    price_LV = 0 if data[7] is None else data[7]
+    keyword = '' if data[8] is None else data[8]
+
+    setting_str  = f"Lat :        {data[4]}\n"
     setting_str += f"Lng :        {data[5]}\n"
-    setting_str += f"Min price :  {data[6]}\n"
-    setting_str += f"Keyword :    {data[7]}\n"
+    setting_str += f"Radius :     {radius}\n"
+    setting_str += f"Price LV :   {price_LV}\n"
+    setting_str += f"Keyword :    {keyword}\n"
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -240,6 +245,7 @@ def handle_message(event):
 
     # get_location state
     if cur_state == 'get_location':
+        print(event)
         if event.message.type == 'location':
             update_state(get_id(event), 'lat', event.message.latitude)
             update_state(get_id(event), 'lng', event.message.longitude)
@@ -260,7 +266,7 @@ def handle_message(event):
         if event.message.type == 'text':
             tmp = msg.split(" ")
             if len(tmp) > 1 and tmp[0] == '>>':
-                update_state(get_id(event), 'price', int(tmp[1]))
+                update_state(get_id(event), 'min_p', int(tmp[1]))
                 update_state(get_id(event), 'state', 'search_filter')
                 line_bot_api.reply_message(token, TextSendMessage(text='設定價錢標準成功!'))
 
@@ -269,7 +275,7 @@ def handle_message(event):
         if event.message.type == 'text':
             tmp = msg.split(" ")
             if len(tmp) > 1 and tmp[0] == '>>':
-                update_state(get_id(event), 'keyword', tmp[1])
+                update_state(get_id(event), 'key_w', tmp[1])
                 update_state(get_id(event), 'state', 'search_filter')
                 line_bot_api.reply_message(token, TextSendMessage(text='設定關鍵字成功!'))
 
