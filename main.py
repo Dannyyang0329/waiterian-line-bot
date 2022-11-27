@@ -195,7 +195,7 @@ def show_keyword_message(event):
 
 
 def show_all_setting(event):
-    data = find_data(get_id(event))
+    data = find_data(get_id(event))[0]
     radius = 3000 if data[6] is None else data[6]
     price_LV = 0 if data[7] is None else data[7]
     keyword = '' if data[8] is None else data[8]
@@ -212,7 +212,7 @@ def show_all_setting(event):
     )
 
 
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent)#, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
     token = event.reply_token

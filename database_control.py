@@ -154,7 +154,7 @@ def delete_data(name):
 # update_state('my_name', 'key_w', 'beef')
 # delete_data('my_name')
 
-# print(find_data('my_name'))
+# print(find_data('Ua66deff62ba92155a59a3f1063f555b8')[0])
 # print(type(find_data('my_name')))
 
 # print(select_data())
