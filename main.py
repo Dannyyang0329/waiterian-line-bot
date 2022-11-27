@@ -245,7 +245,10 @@ def show_all_restaurant(event):
         event.reply_token, 
         FlexSendMessage(
             alt_text = "RESTAURANTS", 
-            contents = restaurants
+            contents =  {
+                "type": "carousel",
+                "contents": restaurants
+            }
         )
     )
 
@@ -283,7 +286,6 @@ def handle_message(event):
 
     # get_location state
     if cur_state == 'get_location':
-        print(event)
         if event.message.type == 'location':
             update_state(get_id(event), 'lat', event.message.latitude)
             update_state(get_id(event), 'lng', event.message.longitude)
