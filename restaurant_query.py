@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_restaurant(lat, lng, radius, min_price, keyword):
-    radius = 3000 if radius is None else radius
-    min_price = 0 if min_price is None else min_price
-    keyword = '' if keyword is None else keyword
+    radius      = 3000 if radius    is None else radius
+    min_price   =    0 if min_price is None else min_price
+    keyword     =   '' if keyword   is None or keyword == '無' else keyword
 
     search_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     search_url += f"key={os.getenv('GOOGLE_API_TOKEN', default='')}&"
@@ -20,8 +20,12 @@ def get_restaurant(lat, lng, radius, min_price, keyword):
     if len(keyword) > 0:
         search_url += f"keyword={keyword}"
 
-    response = requests.get(search_url).json()
-    return response['results']
+    try:
+        response = requests.get(search_url).json()
+        return response['results']
+    except Exception as e:
+        print(e)
+        return "ERROR"
 
 
 def get_restaurant_photo(restaurant):

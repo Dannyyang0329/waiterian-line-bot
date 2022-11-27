@@ -104,9 +104,7 @@ def show_location_message(event):
             text="可以傳送位置訊息了喔~",
             quick_reply=QuickReply(
                 items=[
-                    QuickReplyButton(
-                        action=LocationAction(label="傳送位置")
-                    )
+                    QuickReplyButton(action=LocationAction(label="傳送位置"))
                 ]
             )
         )
@@ -121,18 +119,10 @@ def show_radius_message(event):
             text="可以傳送搜索半徑了喔~",
             quick_reply=QuickReply(
                 items=[
-                    QuickReplyButton(
-                        action=MessageAction(label="500m",text=">> 500")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="1000m",text=">> 1000")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="1500m",text=">> 1500")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="2000m",text=">> 2000")
-                    ),
+                    QuickReplyButton(action=MessageAction(label="500m",text=">> 500")),
+                    QuickReplyButton(action=MessageAction(label="1000m",text=">> 1000")),
+                    QuickReplyButton(action=MessageAction(label="1500m",text=">> 1500")),
+                    QuickReplyButton(action=MessageAction(label="2000m",text=">> 2000"))
                 ]
             )
         )
@@ -147,18 +137,10 @@ def show_price_message(event):
             text="可以傳送價錢標準了喔~",
             quick_reply=QuickReply(
                 items=[
-                    QuickReplyButton(
-                        action=MessageAction(label="LV 0",text=">> 0")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="LV 1",text=">> 1")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="LV 2",text=">> 2")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="LV 3",text=">> 3")
-                    ),
+                    QuickReplyButton(action=MessageAction(label="LV 0",text=">> 0")),
+                    QuickReplyButton(action=MessageAction(label="LV 1",text=">> 1")),
+                    QuickReplyButton(action=MessageAction(label="LV 2",text=">> 2")),
+                    QuickReplyButton(action=MessageAction(label="LV 3",text=">> 3"))
                 ]
             )
         )
@@ -173,21 +155,12 @@ def show_keyword_message(event):
             text="可以傳送關鍵字了喔~",
             quick_reply=QuickReply(
                 items=[
-                    QuickReplyButton(
-                        action=MessageAction(label="日式",text=">> 日式")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="美式",text=">> 美式")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="台式",text=">> 台式")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="泰式",text=">> 泰式")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="韓式",text=">> 韓式")
-                    ),
+                    QuickReplyButton(action=MessageAction(label="無",text=">> 無")),
+                    QuickReplyButton(action=MessageAction(label="日式",text=">> 日式")),
+                    QuickReplyButton(action=MessageAction(label="美式",text=">> 美式")),
+                    QuickReplyButton(action=MessageAction(label="台式",text=">> 台式")),
+                    QuickReplyButton(action=MessageAction(label="泰式",text=">> 泰式")),
+                    QuickReplyButton(action=MessageAction(label="韓式",text=">> 韓式"))
                 ]
             )
         )
@@ -195,13 +168,24 @@ def show_keyword_message(event):
 
 
 def show_all_setting(event):
-    data = find_data(get_id(event))[0]
-    radius = 3000 if data[6] is None else data[6]
-    price_LV = 0 if data[7] is None else data[7]
-    keyword = '' if data[8] is None else data[8]
+    data = find_data(get_id(event))
+    if len(data) == 0:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Data not found")
+        )
+        return
 
-    setting_str  = f"Lat :        {data[4]}\n"
-    setting_str += f"Lng :        {data[5]}\n"
+    data = data[0]
+
+    latitude    = 'None' if data[4] is None else data[4]
+    longtitude  = 'None' if data[5] is None else data[5]
+    radius      =  3000  if data[6] is None else data[6]
+    price_LV    =     0  if data[7] is None else data[7]
+    keyword     =     '' if data[8] is None else data[8]
+
+    setting_str  = f"Lat :        {latitude}\n"
+    setting_str += f"Lng :        {longtitude}\n"
     setting_str += f"Radius :     {radius}\n"
     setting_str += f"Price LV :   {price_LV}\n"
     setting_str += f"Keyword :    {keyword}\n"
@@ -212,13 +196,64 @@ def show_all_setting(event):
     )
 
 
-@handler.add(MessageEvent)#, message=TextMessage)
-def handle_message(event):
-    msg = ''
-    if event.message.type == 'text':
-        msg = event.message.text
+def show_all_restaurant(event):
+    update_state(get_id(event), 'state', 'idle')
+    datas = find_data(get_id(event))
+    
+    if len(datas) == 0:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="資料庫錯誤")
+        )
+        return
 
+    data = datas[0]
+    responses = get_restaurant(
+        data[4], data[5], data[6], data[7], data[8]
+    )
+    if responses == 'ERROR':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="搜尋錯誤")
+        )
+        return
+    if len(responses) == 0:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="沒有符合的商家")
+        )
+        return
+
+    restaurants = []
+    restaurant_num = 10 if len(responses)>10 else len(responses)
+
+    for i in range(restaurant_num):
+        try:
+            restaurant = get_single_restaurant_json(
+                get_restaurant_photo(responses[i]),
+                responses[i]['name'],
+                responses[i]['rating'],
+                responses[i]['price_level'],
+                responses[i]['vicinity'],
+                get_restaurant_url(responses[i])
+            )
+            restaurants.append(restaurant)
+        except Exception as e:
+            print(e)
+
+    line_bot_api.reply_message(
+        event.reply_token, 
+        FlexSendMessage(
+            alt_text = "RESTAURANTS", 
+            contents = restaurants
+        )
+    )
+
+
+@handler.add(MessageEvent)
+def handle_message(event):
     token = event.reply_token
+    msg = event.message.text if event.message.type == 'text' else ''
 
     cur_state = get_state(event)
 
@@ -243,28 +278,7 @@ def handle_message(event):
         if msg == '顯示所有設定':
             show_all_setting(event)         # search_filter -> search_filter
         if msg == '開始搜尋':
-            update_state(get_id(event), 'state', 'idle')
-            line_bot_api.reply_message(token, TextSendMessage(text='Searching'))
-            data = find_data(get_id(event))[0]
-            response = get_restaurant (
-                data[4], data[5], data[6], data[7], data[8]
-            )
-            response = response[(random.randrange(0, len(response)))]
-            
-            line_bot_api.reply_message(
-                token, 
-                FlexSendMessage(
-                    alt_text = "RESTAURANT", 
-                    contents = get_single_restaurant_json (
-                        get_restaurant_photo(response),
-                        response['name'],
-                        response['rating'],
-                        response['price_level'],
-                        response['vicinity'],
-                        get_restaurant_url(response)
-                    )
-                )
-            )
+            show_all_restaurant(event)
 
 
     # get_location state
