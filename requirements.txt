@@ -4,3 +4,5 @@ python-dotenv
 gunicorn
 psycopg2-binary
 requests
+transitions
+graphviz
