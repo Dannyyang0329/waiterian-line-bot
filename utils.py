@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from linebot import LineBotApi
-from linebot.exceptions import 
+from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 
 from flex_message import *
