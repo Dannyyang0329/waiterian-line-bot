@@ -213,3 +213,41 @@ def show_all_restaurant(event):
             }
         )
     )
+
+
+def get_the_location(event):
+    if event.message.type == 'location':
+        update_state(get_id(event), 'lat', event.message.latitude)
+        update_state(get_id(event), 'lng', event.message.longitude)
+        update_state(get_id(event), 'state', 'search_filter')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定位置訊息成功!'))
+
+
+def get_the_radius(event):
+    if event.message.type == 'text':
+        tmp = event.message.text.split(" ")
+        if len(tmp) > 1 and tmp[0] == '>>':
+            update_state(get_id(event), 'radius', int(tmp[1]))
+            update_state(get_id(event), 'state', 'search_filter')
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定搜索半徑成功!'))
+
+
+def get_the_price(event):
+    if event.message.type == 'text':
+        tmp = event.message.text.split(" ")
+        if len(tmp) > 1 and tmp[0] == '>>':
+            update_state(get_id(event), 'min_p', int(tmp[1]))
+            update_state(get_id(event), 'state', 'search_filter')
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定價錢標準成功!'))
+
+
+def get_the_keyword(event):
+    if event.message.type == 'text':
+        tmp = event.message.text.split(" ")
+        if len(tmp) > 1 and tmp[0] == '>>':
+            update_state(get_id(event), 'key_w', tmp[1])
+            update_state(get_id(event), 'state', 'search_filter')
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定關鍵字成功!'))
+
+
+
