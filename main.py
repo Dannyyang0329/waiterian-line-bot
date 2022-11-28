@@ -36,7 +36,8 @@ arr = []
 @handler.add(MessageEvent)
 def handle_message(event):
     arr.append('a')
-    print(arr)
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(len(arr))))
+
 
     token = event.reply_token
     msg = event.message.text if event.message.type == 'text' else ''
