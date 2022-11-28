@@ -43,7 +43,7 @@ def handle_message(event):
     if get_id(event) not in machines:
         machines.update({id: get_fsm(cur_state)})
 
-    machines[id].advanced(event)
+    machines[id].advance(event)
 
     # idle state
     # if cur_state == 'idle':
