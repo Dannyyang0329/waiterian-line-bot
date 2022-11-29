@@ -25,6 +25,10 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'FOOD':
                 show_search_filter(event)       # idle -> search_filter
                 return True
+        if self.state == 'search_filter':
+            if msg == '顯示所有設定':
+                show_all_setting(event)         # search_filter -> search_filter
+                return True
         if self.state == 'get_location':
             return get_the_location(event)      # get_location -> search_filter
         if self.state == 'get_radius':
@@ -63,7 +67,7 @@ class Waiterian_Machine(GraphMachine):
 
     def is_going_to_get_keyword(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == '顯示所有設定':
+        if msg == '使用關鍵字搜尋':
             show_all_setting(event)             # search_filter -> search_filter
             return True
         return False
@@ -136,6 +140,12 @@ def get_fsm(init_state):
             "source": "search_filter",
             "dest": "get_keyword",
             "conditions": "is_going_to_get_keyword",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_filter",
+            "dest": "search_filter",
+            "conditions": "is_going_to_search_filter",
         },
         {
             "trigger": "advance",
