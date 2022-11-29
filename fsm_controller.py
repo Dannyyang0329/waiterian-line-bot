@@ -68,7 +68,7 @@ class Waiterian_Machine(GraphMachine):
     def is_going_to_get_keyword(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '使用關鍵字搜尋':
-            show_all_setting(event)             # search_filter -> search_filter
+            show_keyword_message(event)
             return True
         return False
 
