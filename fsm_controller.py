@@ -6,17 +6,22 @@ class Waiterian_Machine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
 
+    def show_state(self):
+        print("\n>> " + self.state + '\n')
+
     def is_going_to_information(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == 'INFORMATION':
             info = f"""
-            Type: {event.source.type}
-            State:{self.state}
+            Type    : {event.source.type}
+            State   : {self.state}
             """
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=info))
         return False
 
     def is_going_to_search_filter(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if self.state == 'idle':
             if msg == 'WAITERIAN':
@@ -38,6 +43,7 @@ class Waiterian_Machine(GraphMachine):
 
 
     def is_going_to_get_location(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '設定位置訊息':
             show_location_message(event)        # search_filter -> get_location
@@ -46,6 +52,7 @@ class Waiterian_Machine(GraphMachine):
 
 
     def is_going_to_get_radius(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '設定搜索半徑':
             show_radius_message(event)          # search_filter -> get_radius
@@ -54,6 +61,7 @@ class Waiterian_Machine(GraphMachine):
 
 
     def is_going_to_get_price(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '設定價錢標準':
             show_price_message(event)           # search_filter -> get_price
@@ -62,6 +70,7 @@ class Waiterian_Machine(GraphMachine):
 
 
     def is_going_to_get_keyword(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '顯示所有設定':
             show_all_setting(event)             # search_filter -> search_filter
@@ -70,6 +79,7 @@ class Waiterian_Machine(GraphMachine):
 
 
     def is_going_to_idle(self, event):
+        self.show_state()
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '開始搜尋':
             show_all_restaurant(event)          # search_filter -> idle
