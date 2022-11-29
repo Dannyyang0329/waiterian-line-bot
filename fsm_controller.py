@@ -14,10 +14,7 @@ class Waiterian_Machine(GraphMachine):
             State:{self.state}
             """
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=info))
-            return True
         return False
-    def on_enter_information(self):
-        self.go_back()
 
     def is_going_to_search_filter(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
