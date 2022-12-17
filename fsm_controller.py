@@ -2,6 +2,8 @@ from transitions.extensions import GraphMachine
 
 from utils import *
 
+type_dict = {}
+
 class Waiterian_Machine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
@@ -22,9 +24,15 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'WAITERIAN':
                 show_carousel_images(event)     # idle -> idle
                 return False
-            if msg == 'FOOD':
-                show_search_filter(event)       # idle -> search_filter
-                return True
+            elif msg == 'RESTAURANT':
+                show_search_filter(event, 'RESTAURANT')
+            elif msg == 'DESSERT':
+                show_search_filter(event, 'DESSERT')
+            elif msg == 'CAFE':
+                show_search_filter(event, 'CAFE')
+            else:
+                return False
+            return True
         if self.state == 'search_filter':
             if msg == '顯示所有設定':
                 show_all_setting(event)         # search_filter -> search_filter
@@ -76,7 +84,7 @@ class Waiterian_Machine(GraphMachine):
     def is_going_to_idle(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if msg == '開始搜尋':
-            show_all_restaurant(event)          # search_filter -> idle
+            show_all_restaurant(event, type_dict[get_id(event)])          # search_filter -> idle
             return True
         return False
 
@@ -84,6 +92,7 @@ class Waiterian_Machine(GraphMachine):
 def get_fsm(init_state):
     states = [
         "idle", 
+        "select_type",
         "search_filter", 
         "get_location", 
         "get_radius", 
@@ -106,6 +115,7 @@ def get_fsm(init_state):
             "conditions": "is_going_to_information",
         },
         { "trigger": "go_back", "source": "information", "dest": "idle" },
+        { "trigger": "go_back", "source": "information", "dest": "select_type" },
         { "trigger": "go_back", "source": "information", "dest": "search_filter" },
         { "trigger": "go_back", "source": "information", "dest": "get_location" },
         { "trigger": "go_back", "source": "information", "dest": "get_radius" },
@@ -114,7 +124,7 @@ def get_fsm(init_state):
         {
             "trigger": "advance",
             "source": "idle",
-            "dest": "search_filter",
+            "dest": "select_filter",
             "conditions": "is_going_to_search_filter",
         },
         {

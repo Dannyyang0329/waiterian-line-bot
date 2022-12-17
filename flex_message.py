@@ -6,13 +6,13 @@ def get_carousel_images_json():
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://i.imgur.com/37rIrGT.png",
+                    "url": "https://i.imgur.com/1OH4BRd.png",
                     "aspectMode": "cover",
                     "size": "full",
                     "action": {
                         "type": "message",
                         "label": "action",
-                        "text": "FOOD"
+                        "text": "RESTAURANT"
                     }
                 }
             },
@@ -20,13 +20,13 @@ def get_carousel_images_json():
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://i.imgur.com/6q22Ncz.png",
+                    "url": "https://i.imgur.com/XiZJ4Qy.png",
                     "aspectMode": "cover",
                     "size": "full",
                     "action": {
                         "type": "message",
                         "label": "action",
-                        "text": "ROULETTE"
+                        "text": "CAFE"
                     }
                 }
             },
@@ -34,13 +34,13 @@ def get_carousel_images_json():
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://i.imgur.com/fydfmTU.png",
+                    "url": "https://i.imgur.com/YsG3KFQ.png",
                     "aspectMode": "cover",
                     "size": "full",
                     "action": {
                         "type": "message",
                         "label": "action",
-                        "text": "INFORMATION"
+                        "text": "DESSERT"
                     }
                 }
             }
@@ -201,7 +201,15 @@ def get_single_restaurant_json(image_url, name, grade, price_level, address, web
 
 # ============================================================================
 
-def get_search_filter_json():
+def get_search_filter_json(type):
+    type_url = ''
+    if type == 'RESTAURANT':
+        type_url = 'https://i.imgur.com/1OH4BRd.png'
+    elif type == 'CAFE':
+        type = "https://i.imgur.com/XiZJ4Qy.png"
+    elif type == 'DESSERT':
+        type = "https://i.imgur.com/YsG3KFQ.png"
+
     filter = {
         "type": "bubble",
         "hero": {
@@ -212,7 +220,7 @@ def get_search_filter_json():
                 "type": "uri",
                 "uri": "http://linecorp.com/"
             },
-            "url": "https://i.imgur.com/37rIrGT.png"
+            "url": type_url
         },
         "body": {
             "type": "box",

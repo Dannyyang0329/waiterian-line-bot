@@ -1,4 +1,5 @@
 import os
+import random
 from dotenv import load_dotenv
 
 from linebot import LineBotApi
@@ -48,13 +49,13 @@ def show_carousel_images(event):
         )
     )
 
-def show_search_filter(event):
+def show_search_filter(event, type):
     update_state(get_id(event), 'state', 'search_filter')
     line_bot_api.reply_message(
         event.reply_token,
         FlexSendMessage(
             alt_text = 'search filter',
-            contents = get_search_filter_json()
+            contents = get_search_filter_json(type)
         )
     )
 
@@ -158,7 +159,7 @@ def show_all_setting(event):
     )
 
 
-def show_all_restaurant(event):
+def show_all_restaurant(event, type):
     update_state(get_id(event), 'state', 'idle')
     datas = find_data(get_id(event))
    
@@ -171,7 +172,7 @@ def show_all_restaurant(event):
 
     data = datas[0]
     responses = get_restaurant(
-        data[4], data[5], data[6], data[7], data[8]
+        data[4], data[5], data[6], data[7], data[8], type
     )
     if responses == 'ERROR':
         line_bot_api.reply_message(
@@ -188,8 +189,9 @@ def show_all_restaurant(event):
 
     restaurants = []
     restaurant_num = 10 if len(responses)>10 else len(responses)
+    restaurant_index = random.sample(list(range(restaurant_num)), restaurant_num)
 
-    for i in range(restaurant_num):
+    for i in restaurant_index:
         try:
             restaurant = get_single_restaurant_json(
                 get_restaurant_photo(responses[i]),

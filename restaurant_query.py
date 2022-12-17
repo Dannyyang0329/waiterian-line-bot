@@ -4,17 +4,28 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_restaurant(lat, lng, radius, min_price, keyword):
+def get_restaurant(lat, lng, radius, min_price, keyword, type='RESTAURANT'):
     radius      = 3000 if radius    is None else radius
     min_price   =    0 if min_price is None else min_price
     keyword     =   '' if keyword   is None or keyword == '無' else keyword
 
+    typestr = ''
+    if type == 'RESTAURANT':
+        typestr = 'type=food|restaurant&'
+    elif type == 'CAFE':
+        typestr = 'type=cafe&'
+    elif type == 'DESSERT':
+        typestr = 'type=food|restaurant&'
+        keyword = 'dessert'
+
+
+    keyword = 'dessert'
     search_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     search_url += f"key={os.getenv('GOOGLE_API_TOKEN', default='')}&"
     search_url += f"location={lat},{lng}&"
     search_url += f"minprice={min_price}&"
     search_url += f"radius={radius}&"
-    search_url += "type=food|restaurant&"
+    search_url += typestr
     search_url += "opennow=true&"
     search_url += "language=zh-TW&"
     if len(keyword) > 0:
@@ -48,7 +59,7 @@ def get_restaurant_url(restaurant):
     return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}&query_place_id={id}"
 
 # load_dotenv()
-# restaurant = get_restaurant(22.993, 120.219, None, None, None)
+# restaurant = get_restaurant(22.993, 120.219, 3000, None, None, "DESSERT")
 # print(restaurant)
 # print()
 # print()

@@ -39,6 +39,7 @@ def handle_message(event):
     cur_state = get_state(event)
     if get_id(event) not in machines:
         machines.update({id: get_fsm(cur_state)})
+        type_dict.update({id: 'RESTAURANT'})
 
     machines[id].advance(event)
 
