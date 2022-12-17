@@ -92,7 +92,6 @@ class Waiterian_Machine(GraphMachine):
 def get_fsm(init_state):
     states = [
         "idle", 
-        "select_type",
         "search_filter", 
         "get_location", 
         "get_radius", 
@@ -124,7 +123,7 @@ def get_fsm(init_state):
         {
             "trigger": "advance",
             "source": "idle",
-            "dest": "select_filter",
+            "dest": "search_filter",
             "conditions": "is_going_to_search_filter",
         },
         {
