@@ -26,13 +26,17 @@ class Waiterian_Machine(GraphMachine):
                 return False
             elif msg == 'RESTAURANT':
                 show_search_filter(event, 'RESTAURANT')
+                type_dict[get_id(event)] = 'RESTAURANT'
+                return True
             elif msg == 'DESSERT':
                 show_search_filter(event, 'DESSERT')
+                type_dict[get_id(event)] = 'DESSERT'
+                return True
             elif msg == 'CAFE':
                 show_search_filter(event, 'CAFE')
-            else:
-                return False
-            return True
+                type_dict[get_id(event)] = 'CAFE'
+                return True
+            return False
         if self.state == 'search_filter':
             if msg == '顯示所有設定':
                 show_all_setting(event)         # search_filter -> search_filter
@@ -114,7 +118,6 @@ def get_fsm(init_state):
             "conditions": "is_going_to_information",
         },
         { "trigger": "go_back", "source": "information", "dest": "idle" },
-        { "trigger": "go_back", "source": "information", "dest": "select_type" },
         { "trigger": "go_back", "source": "information", "dest": "search_filter" },
         { "trigger": "go_back", "source": "information", "dest": "get_location" },
         { "trigger": "go_back", "source": "information", "dest": "get_radius" },

@@ -9,13 +9,10 @@ def get_restaurant(lat, lng, radius, min_price, keyword, type='RESTAURANT'):
     min_price   =    0 if min_price is None else min_price
     keyword     =   '' if keyword   is None or keyword == '無' else keyword
 
-    typestr = ''
-    if type == 'RESTAURANT':
-        typestr = 'type=food|restaurant&'
-    elif type == 'CAFE':
+    typestr = 'type=food|restaurant&'
+    if type == 'CAFE':
         typestr = 'type=cafe&'
-    elif type == 'DESSERT':
-        typestr = 'type=food|restaurant&'
+    if type == 'DESSERT':
         keyword = 'dessert'
 
 
