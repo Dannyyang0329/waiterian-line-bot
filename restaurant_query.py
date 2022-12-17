@@ -15,8 +15,6 @@ def get_restaurant(lat, lng, radius, min_price, keyword, type='RESTAURANT'):
     if type == 'DESSERT':
         keyword = 'dessert'
 
-
-    keyword = 'dessert'
     search_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     search_url += f"key={os.getenv('GOOGLE_API_TOKEN', default='')}&"
     search_url += f"location={lat},{lng}&"
@@ -56,7 +54,8 @@ def get_restaurant_url(restaurant):
     return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}&query_place_id={id}"
 
 # load_dotenv()
-# restaurant = get_restaurant(22.993, 120.219, 3000, None, None, "DESSERT")
+# restaurant = get_restaurant(22.993, 120.219, 3000, None, None, "RESTAURANT")
+# restaurant = get_restaurant(23.308, 120.721, 5000, None, None, "RESTAURANT")
 # print(restaurant)
 # print()
 # print()

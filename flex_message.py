@@ -206,9 +206,9 @@ def get_search_filter_json(type):
     if type == 'RESTAURANT':
         type_url = 'https://i.imgur.com/1OH4BRd.png'
     elif type == 'CAFE':
-        type = "https://i.imgur.com/XiZJ4Qy.png"
+        type_url = "https://i.imgur.com/XiZJ4Qy.png"
     elif type == 'DESSERT':
-        type = "https://i.imgur.com/YsG3KFQ.png"
+        type_url = "https://i.imgur.com/YsG3KFQ.png"
 
     filter = {
         "type": "bubble",
