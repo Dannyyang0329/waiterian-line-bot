@@ -937,3 +937,105 @@ def get_drink_recipe_json():
     return carousel_images
 
 
+# ============================================================================
+
+def get_help_manual_category_json():
+    filter = {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "size": "full",
+            "aspectMode": "cover",
+            "action": {
+                "type": "uri",
+                "uri": "http://linecorp.com/"
+            },
+            "url": 'https://i.imgur.com/Cgz26a1.png'
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "請選擇幫助種類",
+                    "weight": "bold",
+                    "size": "xl"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "小提示",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                },
+                                {
+                                    "type": "text",
+                                    "text": '可以用"INFORMATION"得知當前的狀態喔!',
+                                    "wrap": True,
+                                    "color": "#666666",
+                                    "size": "sm",
+                                    "flex": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "backgroundColor": "#F5F5DC"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "contents": [
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "搜索餐廳",
+                        "text": "HELP SEARCH RESTAURANT"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "搜索食譜",
+                        "text": "HELP SEARCH RECIPE"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "離開",
+                        "text": "QUIT"
+                    }
+                }
+            ],
+            "flex": 0,
+            "backgroundColor": "#F5F5DC"
+        }
+    }
+    return filter

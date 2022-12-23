@@ -71,8 +71,6 @@ def show_information(event, state):
             info += 'wait_target_recipe'
         elif state == 'help':
             info += 'help'
-        elif state == 'choose_help_manual':
-            info += 'choose_help_manual'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=info))
 
 
@@ -412,3 +410,25 @@ def show_all_recipe(event, type, category):
             }
         )
     )
+
+
+def show_help_manual_category(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(
+            alt_text = 'help_manual_category',
+            contents = get_help_manual_category_json()
+        )
+    )
+
+def show_help_manual(event, type):
+    if type == 'search_restaurant':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="尚未有搜尋餐廳的幫助!請等待更新")
+        )
+    elif type == 'search_recipe':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="尚未有搜尋食譜的幫助!請等待更新")
+        )

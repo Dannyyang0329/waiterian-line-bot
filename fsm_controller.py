@@ -276,20 +276,16 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'INFORMATION':
                 show_information(event, self.state)
                 return True
+            elif msg == 'HELP SEARCH RESTAURANT':
+                show_help_manual(event, 'search_restaurant')
+                return True
+            elif msg == 'HELP SEARCH RECIPE':
+                show_help_manual(event, 'search_recipe')
+                return True
+
         elif self.state == 'idle':
             if msg == "HELP":
-                return True;
-        return False
-
-
-    def is_going_to_choose_help_manual(self, event):
-        msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if self.state == 'choose_help_manual':
-            if msg == 'INFORMATION':
-                show_information(event, self.state)
-                return True
-        elif self.state == 'help':
-            if msg == "CHOOSE":
+                show_help_manual_category(event)
                 return True;
         return False
 
@@ -309,7 +305,6 @@ def get_fsm(init_state):
         "drink_recipe",
         "wait_target_recipe",
         "help",
-        "choose_help_manual"
     ]
     transitions = [
         # source is 'idle'
@@ -547,25 +542,6 @@ def get_fsm(init_state):
             "dest": "idle",
             "conditions": "is_going_to_idle",
         },
-        {
-            "trigger": "advance",
-            "source": "help",
-            "dest": "choose_help_manual",
-            "conditions": "is_going_to_choose_help_manual",
-        },
-        # source is 'choose_help_manual'
-        {
-            "trigger": "advance",
-            "source": "choose_help_manual",
-            "dest": "choose_help_manual",
-            "conditions": "is_going_to_choose_help_manual",
-        },
-        {
-            "trigger": "advance",
-            "source": "choose_help_manual",
-            "dest": "help",
-            "conditions": "is_going_to_help",
-        },
     ]
 
     machine = Waiterian_Machine(
@@ -578,8 +554,8 @@ def get_fsm(init_state):
     return machine
 
 
-# machine = get_fsm('idle')
+machine = get_fsm('idle')
 # print(machine.state)
 # print(machine.advance('FOOD'))
 # print(machine.state)
-# get_fsm("idle").get_graph().draw("fsm.png", prog="dot", format="png")
+get_fsm("idle").get_graph().draw("fsm.png", prog="dot", format="png")
