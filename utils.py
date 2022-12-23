@@ -7,6 +7,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 
 from flex_message import *
+from search_recipe import *
 from database_control import *
 from restaurant_query import *
 
@@ -40,31 +41,68 @@ def get_state(event):
             return data[0][3]
 
 
-def show_carousel_images(event):
+def show_information(event, state):
+    msg = event.message.text.upper() if event.message.type == 'text' else ''
+    if msg == 'INFORMATION':
+        info = "您現在的狀態是"
+        if state == 'idle':
+            info += 'idle'
+        elif state == 'search_restaurant':
+            info += 'search_restaurant'
+        elif state == 'get_location':
+            info += 'get_location'
+        elif state == 'get_radius':
+            info += 'get_radius'
+        elif state == 'get_price_level':
+            info += 'get_price_level'
+        elif state == 'get_keyword':
+            info += 'get_keyword'
+        elif state == 'search_recipe':
+            info += 'search_recipe'
+        elif state == 'dessert_recipe':
+            info += 'dessert_recipe'
+        elif state == 'dish_recipe':
+            info += 'dish_recipe'
+        elif state == 'exotic_recipe':
+            info += 'exotic_recipe'
+        elif state == 'drink_recipe':
+            info += 'drink_recipe'
+        elif state == 'wait_target_recipe':
+            info += 'wait_target_recipe'
+        elif state == 'help':
+            info += 'help'
+        elif state == 'choose_help_manual':
+            info += 'choose_help_manual'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=info))
+
+
+def show_mainmenu(event):
     line_bot_api.reply_message(
         event.reply_token,
         FlexSendMessage(
             alt_text = 'carousel images',
-            contents = get_carousel_images_json()
+            contents = get_mainmenu_json()
         )
     )
 
-def show_search_filter(event, type):
-    update_state(get_id(event), 'state', 'search_filter')
+
+def show_search_filter(event):
+    # update_state(get_id(event), 'state', 'search_filter')
     line_bot_api.reply_message(
         event.reply_token,
         FlexSendMessage(
             alt_text = 'search filter',
-            contents = get_search_filter_json(type)
+            contents = get_search_restaurant_json()
         )
     )
 
+
 def show_location_message(event):
-    update_state(get_id(event), 'state', 'get_location')
+    # update_state(get_id(event), 'state', 'get_location')
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
-            text="可以傳送位置訊息了喔~",
+            text="可以傳送位置訊息了喔!",
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(action=LocationAction(label="傳送位置"))
@@ -75,11 +113,11 @@ def show_location_message(event):
 
 
 def show_radius_message(event):
-    update_state(get_id(event), 'state', 'get_radius')
+    # update_state(get_id(event), 'state', 'get_radius')
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
-            text="可以傳送搜索半徑了喔~",
+            text="可以傳送搜索半徑了喔!",
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(action=MessageAction(label="500m",text=">> 500")),
@@ -92,12 +130,12 @@ def show_radius_message(event):
     )
 
 
-def show_price_message(event):
-    update_state(get_id(event), 'state', 'get_price')
+def show_price_level_message(event):
+    # update_state(get_id(event), 'state', 'get_price')
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
-            text="可以傳送價錢標準了喔~",
+            text="可以傳送價錢標準了喔!",
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(action=MessageAction(label="LV 0",text=">> 0")),
@@ -111,11 +149,11 @@ def show_price_message(event):
 
 
 def show_keyword_message(event):
-    update_state(get_id(event), 'state', 'get_keyword')
+    # update_state(get_id(event), 'state', 'get_keyword')
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
-            text="可以傳送關鍵字了喔~",
+            text="可以傳送關鍵字了喔!",
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(action=MessageAction(label="無",text=">> 無")),
@@ -147,11 +185,11 @@ def show_all_setting(event):
     price_LV    =     0  if data[7] is None else data[7]
     keyword     =     '' if data[8] is None else data[8]
 
-    setting_str  = f"Lat :        {latitude}\n"
-    setting_str += f"Lng :        {longtitude}\n"
-    setting_str += f"Radius :     {radius}\n"
-    setting_str += f"Price LV :   {price_LV}\n"
-    setting_str += f"Keyword :    {keyword}\n"
+    setting_str  = f"Latitude    : {latitude}\n"
+    setting_str += f"Longtitude  : {longtitude}\n"
+    setting_str += f"Radius      : {radius}\n"
+    setting_str += f"Price Level : {price_LV}\n"
+    setting_str += f"Keyword     : {keyword}"
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -159,8 +197,8 @@ def show_all_setting(event):
     )
 
 
-def show_all_restaurant(event, type):
-    update_state(get_id(event), 'state', 'idle')
+def show_all_restaurant(event):
+    # update_state(get_id(event), 'state', 'idle')
     datas = find_data(get_id(event))
    
     if len(datas) == 0:
@@ -172,7 +210,7 @@ def show_all_restaurant(event, type):
 
     data = datas[0]
     responses = get_restaurant(
-        data[4], data[5], data[6], data[7], data[8], type
+        data[4], data[5], data[6], data[7], data[8]
     )
     if responses == 'ERROR':
         line_bot_api.reply_message(
@@ -217,11 +255,29 @@ def show_all_restaurant(event, type):
     )
 
 
+def print_quit_msg(event, state):
+    if state == 'search_restaurant':
+        line_bot_api.reply_message(
+            event.reply_token, 
+            TextSendMessage(text='結束餐廳搜尋!')
+        )
+    elif state == 'search_recipe':
+        line_bot_api.reply_message(
+            event.reply_token, 
+            TextSendMessage(text='結束菜譜搜尋!')
+        )
+    elif state == 'help':
+        line_bot_api.reply_message(
+            event.reply_token, 
+            TextSendMessage(text='結束幫助!')
+        )
+
+
 def get_the_location(event):
     if event.message.type == 'location':
         update_state(get_id(event), 'lat', event.message.latitude)
         update_state(get_id(event), 'lng', event.message.longitude)
-        update_state(get_id(event), 'state', 'search_filter')
+        # update_state(get_id(event), 'state', 'search_filter')
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定位置訊息成功!'))
         return True
     return False
@@ -232,18 +288,18 @@ def get_the_radius(event):
         tmp = event.message.text.split(" ")
         if len(tmp) > 1 and tmp[0] == '>>':
             update_state(get_id(event), 'radius', int(tmp[1]))
-            update_state(get_id(event), 'state', 'search_filter')
+            # update_state(get_id(event), 'state', 'search_filter')
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定搜索半徑成功!'))
             return True
     return False
 
 
-def get_the_price(event):
+def get_the_price_level(event):
     if event.message.type == 'text':
         tmp = event.message.text.split(" ")
         if len(tmp) > 1 and tmp[0] == '>>':
             update_state(get_id(event), 'min_p', int(tmp[1]))
-            update_state(get_id(event), 'state', 'search_filter')
+            # update_state(get_id(event), 'state', 'search_filter')
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定價錢標準成功!'))
             return True
     return False
@@ -254,10 +310,62 @@ def get_the_keyword(event):
         tmp = event.message.text.split(" ")
         if len(tmp) > 1 and tmp[0] == '>>':
             update_state(get_id(event), 'key_w', tmp[1])
-            update_state(get_id(event), 'state', 'search_filter')
+            # update_state(get_id(event), 'state', 'search_filter')
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定關鍵字成功!'))
             return True
     return False
 
 
+def show_search_recipe(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(
+            alt_text = 'search recipe',
+            contents = get_search_recipe_json()
+        )
+    )
 
+
+def show_dessert_recipe_category(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(
+            alt_text = 'carousel images',
+            contents = get_dessert_recipe_json()
+        )
+    )
+
+
+def show_all_recipe(event, type, category):
+    selected_recipes = get_recipe(type, category)
+   
+    if len(selected_recipes) == 0:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="沒有符合的食譜")
+        )
+        return
+
+    recipe_list = []
+    for recipe in selected_recipes:
+        try:
+            restaurant = get_single_recipe_json(
+                recipe['img_url'],
+                recipe['name'],
+                recipe['ingredient'],
+                recipe['href']
+            )
+            recipe_list.append(restaurant)
+        except Exception as e:
+            print(e)
+
+    line_bot_api.reply_message(
+        event.reply_token, 
+        FlexSendMessage(
+            alt_text = "RESTAURANTS", 
+            contents =  {
+                "type": "carousel",
+                "contents": recipe_list
+            }
+        )
+    )

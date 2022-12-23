@@ -6,3 +6,4 @@ psycopg2-binary
 requests
 transitions
 graphviz
+beautifulsoup4

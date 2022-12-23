@@ -35,11 +35,11 @@ machines = {}
 
 @handler.add(MessageEvent)
 def handle_message(event):
+    print("I got a message.")
+
     id = get_id(event)
-    cur_state = get_state(event)
-    if get_id(event) not in machines:
-        machines.update({id: get_fsm(cur_state)})
-        type_dict.update({id: 'RESTAURANT'})
+    if id not in machines:
+        machines.update({id: get_fsm('idle')})
 
     machines[id].advance(event)
 

@@ -2,179 +2,518 @@ from transitions.extensions import GraphMachine
 
 from utils import *
 
-type_dict = {}
-
 class Waiterian_Machine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
 
-    def is_going_to_information(self, event):
-        msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == 'INFORMATION':
-            info = f"""
-            Type    : {event.source.type}
-            State   : {self.state}
-            """
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=info))
-        return False
 
-    def is_going_to_search_filter(self, event):
+    def is_going_to_idle(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
         if self.state == 'idle':
-            if msg == 'WAITERIAN':
-                show_carousel_images(event)     # idle -> idle
-                return False
-            elif msg == 'RESTAURANT':
-                show_search_filter(event, 'RESTAURANT')
-                type_dict[get_id(event)] = 'RESTAURANT'
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
                 return True
-            elif msg == 'DESSERT':
-                show_search_filter(event, 'DESSERT')
-                type_dict[get_id(event)] = 'DESSERT'
+            elif msg == 'WAITERIAN':
+                show_mainmenu(event)
                 return True
-            elif msg == 'CAFE':
-                show_search_filter(event, 'CAFE')
-                type_dict[get_id(event)] = 'CAFE'
+        elif self.state == 'search_restaurant':
+            if msg == 'QUIT':
+                print("Cur state : idle")
+                print_quit_msg(event, 'search_restaurant')
                 return True
-            return False
-        if self.state == 'search_filter':
-            if msg == '顯示所有設定':
-                show_all_setting(event)         # search_filter -> search_filter
+        elif self.state == 'search_recipe':
+            if msg == 'QUIT':
+                print("Cur state : idle")
+                print_quit_msg(event, 'search_recipe')
                 return True
-        if self.state == 'get_location':
-            return get_the_location(event)      # get_location -> search_filter
-        if self.state == 'get_radius':
-            return get_the_radius(event)        # get_location -> search_filter
-        if self.state == 'get_price':
-            return get_the_price(event)         # get_location -> search_filter
-        if self.state == 'get_keyword':
-            return get_the_keyword(event)       # get_location -> search_filter
-
+        elif self.state == 'help':
+            # if msg == 'QUIT':
+                print("Cur state : idle")
+                print_quit_msg(event, 'help')
+                return True
         return False
+
+
+    def is_going_to_search_restaurant(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'search_restaurant':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+            elif msg == 'SHOW ALL SETTINGS':
+                show_all_setting(event)
+                return True
+            elif msg == 'START':
+                show_all_restaurant(event)
+                return True
+        elif self.state == 'idle':
+            if msg == 'SEARCH RESTAURANT':
+                show_search_filter(event)
+                return True;
+        elif self.state == 'get_location':
+            return get_the_location(event)
+        elif self.state == 'get_radius':
+            return get_the_radius(event)
+        elif self.state == 'get_price_level':
+            return get_the_price_level(event)
+        elif self.state == 'get_keyword':
+            return get_the_keyword(event)
+
+        return False;
 
 
     def is_going_to_get_location(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == '設定位置訊息':
-            show_location_message(event)        # search_filter -> get_location
-            return True
+        if self.state == 'get_location':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_restaurant':
+            if msg == 'SET LOCATION':
+                show_location_message(event)
+                return True
         return False
 
 
     def is_going_to_get_radius(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == '設定搜索半徑':
-            show_radius_message(event)          # search_filter -> get_radius
-            return True
+        if self.state == 'get_radius':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_restaurant':
+            if msg == 'SET RADIUS':
+                show_radius_message(event)
+                return True
         return False
 
 
-    def is_going_to_get_price(self, event):
+    def is_going_to_get_price_level(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == '設定價錢標準':
-            show_price_message(event)           # search_filter -> get_price
-            return True
+        if self.state == 'get_price_level':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_restaurant':
+            if msg == 'SET PRICE LEVEL':
+                show_price_level_message(event)
+                return True
         return False
 
 
     def is_going_to_get_keyword(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == '使用關鍵字搜尋':
-            show_keyword_message(event)
-            return True
+        if self.state == 'get_keyword':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_restaurant':
+            if msg == 'SET KEYWORD':
+                show_keyword_message(event)
+                return True
         return False
 
 
-    def is_going_to_idle(self, event):
+    def is_going_to_search_recipe(self, event):
         msg = event.message.text.upper() if event.message.type == 'text' else ''
-        if msg == '開始搜尋':
-            show_all_restaurant(event, type_dict[get_id(event)])          # search_filter -> idle
-            return True
+        if self.state == 'search_recipe':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'idle':
+            if msg == 'SEARCH RECIPE':
+                show_search_recipe(event)
+                return True
+        elif self.state == 'dessert_recipe':
+            if msg == 'QUIT':
+                show_search_recipe(event)
+                return True
+        elif self.state == 'dish_recipe':
+            if msg == 'QUIT':
+                show_search_recipe(event)
+                return True
+        elif self.state == 'exotic_recipe':
+            if msg == 'QUIT':
+                show_search_recipe(event)
+                return True
+        elif self.state == 'wait_target_recipe':
+            if msg == 'QUIT':
+                show_search_recipe(event)
+                return True
+
+        return False
+
+    def is_going_to_dessert_recipe(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'dessert_recipe':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+            elif msg == 'RANDOM':
+                show_all_recipe(event, 'dessert', 'random')
+                return True
+            elif msg == 'PUDDING':
+                show_all_recipe(event, 'dessert', 'pudding')
+                return True
+            elif msg == 'CHOCOLATE':
+                show_all_recipe(event, 'dessert', 'chocolate')
+                return True
+            elif msg == 'COOKIE':
+                show_all_recipe(event, 'dessert', 'cookie')
+                return True
+            elif msg == 'BREAD':
+                show_all_recipe(event, 'dessert', 'bread')
+                return True
+        elif self.state == 'search_recipe':
+            if msg == 'GET DESSERT RECIPE':
+                show_dessert_recipe_category(event)
+                return True
+        return False
+
+
+    def is_going_to_dish_recipe(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'dish_recipe':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_recipe':
+            if msg == 'GET DISH RECIPE':
+                return True
+        return False
+
+
+    def is_going_to_exotic_recipe(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'exotic_recipe':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_recipe':
+            if msg == 'GET EXOTIC RECIPE':
+                return True
+        return False
+
+
+    def is_going_to_drink_recipe(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'drink_recipe':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_recipe':
+            if msg == 'GET DRINK RECIPE':
+                return True
+        return False
+
+
+    def is_going_to_wait_target_recipe(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'wait_target_recipe':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'search_recipe':
+            if msg == 'INPUT RECIPE':
+                return True
+        return False
+
+
+    def is_going_to_help(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'help':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'idle':
+            if msg == "HELP":
+                return True;
+        return False
+
+
+    def is_going_to_choose_help_manual(self, event):
+        msg = event.message.text.upper() if event.message.type == 'text' else ''
+        if self.state == 'choose_help_manual':
+            if msg == 'INFORMATION':
+                show_information(event, self.state)
+                return True
+        elif self.state == 'help':
+            if msg == "CHOOSE":
+                return True;
         return False
 
 
 def get_fsm(init_state):
     states = [
         "idle", 
-        "search_filter", 
+        "search_restaurant",
         "get_location", 
         "get_radius", 
-        "get_price",
+        "get_price_level",
         "get_keyword",
-        "information",
+        "search_recipe",
+        "dessert_recipe",
+        "dish_recipe",
+        "exotic_recipe",
+        "drink_recipe",
+        "wait_target_recipe",
+        "help",
+        "choose_help_manual"
     ]
     transitions = [
-        {
-            "trigger": "advance",
-            "source": [
-                "idle", 
-                "search_filter", 
-                "get_location", 
-                "get_radius", 
-                "get_price",
-                "get_keyword",
-            ],
-            "dest": "information",
-            "conditions": "is_going_to_information",
-        },
-        { "trigger": "go_back", "source": "information", "dest": "idle" },
-        { "trigger": "go_back", "source": "information", "dest": "search_filter" },
-        { "trigger": "go_back", "source": "information", "dest": "get_location" },
-        { "trigger": "go_back", "source": "information", "dest": "get_radius" },
-        { "trigger": "go_back", "source": "information", "dest": "get_price" },
-        { "trigger": "go_back", "source": "information", "dest": "get_keyword" },
+        # source is 'idle'
         {
             "trigger": "advance",
             "source": "idle",
-            "dest": "search_filter",
-            "conditions": "is_going_to_search_filter",
+            "dest": "idle",
+            "conditions": "is_going_to_idle",
         },
         {
             "trigger": "advance",
-            "source": "search_filter",
+            "source": "idle",
+            "dest": "search_restaurant",
+            "conditions": "is_going_to_search_restaurant",
+        },
+        {
+            "trigger": "advance",
+            "source": "idle",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "idle",
+            "dest": "help",
+            "conditions": "is_going_to_help",
+        },
+        # source is 'search_restaurant'
+        {
+            "trigger": "advance",
+            "source": "search_restaurant",
+            "dest": "search_restaurant",
+            "conditions": "is_going_to_search_restaurant",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_restaurant",
+            "dest": "idle",
+            "conditions": "is_going_to_idle",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_restaurant",
             "dest": "get_location",
             "conditions": "is_going_to_get_location",
         },
         {
             "trigger": "advance",
-            "source": "search_filter",
+            "source": "search_restaurant",
             "dest": "get_radius",
             "conditions": "is_going_to_get_radius",
         },
         {
             "trigger": "advance",
-            "source": "search_filter",
-            "dest": "get_price",
-            "conditions": "is_going_to_get_price",
+            "source": "search_restaurant",
+            "dest": "get_price_level",
+            "conditions": "is_going_to_get_price_level",
         },
         {
             "trigger": "advance",
-            "source": "search_filter",
+            "source": "search_restaurant",
+            "dest": "get_keyword",
+            "conditions": "is_going_to_get_keyword",
+        },
+        # source is 'get_location'
+        {
+            "trigger": "advance",
+            "source": "get_location",
+            "dest": "get_location",
+            "conditions": "is_going_to_get_location",
+        },
+        {
+            "trigger": "advance",
+            "source": "get_location",
+            "dest": "search_restaurant",
+            "conditions": "is_going_to_search_restaurant",
+        },
+        # source is 'get_radius'
+        {
+            "trigger": "advance",
+            "source": "get_radius",
+            "dest": "get_radius",
+            "conditions": "is_going_to_get_radius",
+        },
+        {
+            "trigger": "advance",
+            "source": "get_radius",
+            "dest": "search_restaurant",
+            "conditions": "is_going_to_search_restaurant",
+        },
+        # source is 'get_price_level'
+        {
+            "trigger": "advance",
+            "source": "get_price_level",
+            "dest": "get_price_level",
+            "conditions": "is_going_to_get_price_level",
+        },
+        {
+            "trigger": "advance",
+            "source": "get_price_level",
+            "dest": "search_restaurant",
+            "conditions": "is_going_to_search_restaurant",
+        },
+        # source is 'get_keyword'
+        {
+            "trigger": "advance",
+            "source": "get_keyword",
             "dest": "get_keyword",
             "conditions": "is_going_to_get_keyword",
         },
         {
             "trigger": "advance",
-            "source": "search_filter",
-            "dest": "search_filter",
-            "conditions": "is_going_to_search_filter",
+            "source": "get_keyword",
+            "dest": "search_restaurant",
+            "conditions": "is_going_to_search_restaurant",
+        },
+        # source is 'search_recipe'
+        {
+            "trigger": "advance",
+            "source": "search_recipe",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
         },
         {
             "trigger": "advance",
-            "source": [
-                "get_location",
-                "get_radius",
-                "get_price",
-                "get_keyword",
-            ],
-            "dest": "search_filter",
-            "conditions": "is_going_to_search_filter",
-        },
-        {
-            "trigger": "advance",
-            "source": "search_filter",
+            "source": "search_recipe",
             "dest": "idle",
             "conditions": "is_going_to_idle",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_recipe",
+            "dest": "dessert_recipe",
+            "conditions": "is_going_to_dessert_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_recipe",
+            "dest": "dish_recipe",
+            "conditions": "is_going_to_dish_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_recipe",
+            "dest": "exotic_recipe",
+            "conditions": "is_going_to_exotic_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_recipe",
+            "dest": "drink_recipe",
+            "conditions": "is_going_to_drink_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "search_recipe",
+            "dest": "wait_target_recipe",
+            "conditions": "is_going_to_wait_target_recipe",
+        },
+        # source is 'dessert_recipe'
+        {
+            "trigger": "advance",
+            "source": "dessert_recipe",
+            "dest": "dessert_recipe",
+            "conditions": "is_going_to_dessert_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "dessert_recipe",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
+        },
+        # source is 'dish_recipe'
+        {
+            "trigger": "advance",
+            "source": "dish_recipe",
+            "dest": "dish_recipe",
+            "conditions": "is_going_to_dish_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "dish_recipe",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
+        },
+        # source is 'exotic_recipe'
+        {
+            "trigger": "advance",
+            "source": "exotic_recipe",
+            "dest": "exotic_recipe",
+            "conditions": "is_going_to_exotic_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "exotic_recipe",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
+        },
+        # source is 'drink_recipe'
+        {
+            "trigger": "advance",
+            "source": "drink_recipe",
+            "dest": "drink_recipe",
+            "conditions": "is_going_to_drink_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "drink_recipe",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
+        },
+        # source is 'drink_recipe'
+        {
+            "trigger": "advance",
+            "source": "wait_target_recipe",
+            "dest": "wait_target_recipe",
+            "conditions": "is_going_to_wait_target_recipe",
+        },
+        {
+            "trigger": "advance",
+            "source": "wait_target_recipe",
+            "dest": "search_recipe",
+            "conditions": "is_going_to_search_recipe",
+        },
+        # source is 'help'
+        {
+            "trigger": "advance",
+            "source": "help",
+            "dest": "help",
+            "conditions": "is_going_to_help",
+        },
+        {
+            "trigger": "advance",
+            "source": "help",
+            "dest": "idle",
+            "conditions": "is_going_to_idle",
+        },
+        {
+            "trigger": "advance",
+            "source": "help",
+            "dest": "choose_help_manual",
+            "conditions": "is_going_to_choose_help_manual",
+        },
+        # source is 'choose_help_manual'
+        {
+            "trigger": "advance",
+            "source": "choose_help_manual",
+            "dest": "choose_help_manual",
+            "conditions": "is_going_to_choose_help_manual",
+        },
+        {
+            "trigger": "advance",
+            "source": "choose_help_manual",
+            "dest": "help",
+            "conditions": "is_going_to_help",
         },
     ]
 

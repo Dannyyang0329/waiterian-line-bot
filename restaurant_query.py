@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_restaurant(lat, lng, radius, min_price, keyword, type='RESTAURANT'):
+def get_restaurant(lat, lng, radius, min_price, keyword):
     radius      = 3000 if radius    is None else radius
     min_price   =    0 if min_price is None else min_price
     keyword     =   '' if keyword   is None or keyword == '無' else keyword

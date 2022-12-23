@@ -1,4 +1,4 @@
-def get_carousel_images_json():
+def get_mainmenu_json():
     carousel_images = {
         "type": "carousel",
         "contents": [
@@ -6,13 +6,13 @@ def get_carousel_images_json():
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://i.imgur.com/1OH4BRd.png",
+                    "url": "https://i.imgur.com/V6gyhBr.png",
                     "aspectMode": "cover",
                     "size": "full",
                     "action": {
                         "type": "message",
                         "label": "action",
-                        "text": "RESTAURANT"
+                        "text": "SEARCH RESTAURANT"
                     }
                 }
             },
@@ -20,13 +20,13 @@ def get_carousel_images_json():
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://i.imgur.com/XiZJ4Qy.png",
+                    "url": "https://i.imgur.com/wCBqkDm.png",
                     "aspectMode": "cover",
                     "size": "full",
                     "action": {
                         "type": "message",
                         "label": "action",
-                        "text": "CAFE"
+                        "text": "SEARCH RECIPE"
                     }
                 }
             },
@@ -34,13 +34,13 @@ def get_carousel_images_json():
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://i.imgur.com/YsG3KFQ.png",
+                    "url": "https://i.imgur.com/Bq65EiI.png",
                     "aspectMode": "cover",
                     "size": "full",
                     "action": {
                         "type": "message",
                         "label": "action",
-                        "text": "DESSERT"
+                        "text": "INFORMATION"
                     }
                 }
             }
@@ -201,15 +201,7 @@ def get_single_restaurant_json(image_url, name, grade, price_level, address, web
 
 # ============================================================================
 
-def get_search_filter_json(type):
-    type_url = ''
-    if type == 'RESTAURANT':
-        type_url = 'https://i.imgur.com/1OH4BRd.png'
-    elif type == 'CAFE':
-        type_url = "https://i.imgur.com/XiZJ4Qy.png"
-    elif type == 'DESSERT':
-        type_url = "https://i.imgur.com/YsG3KFQ.png"
-
+def get_search_restaurant_json():
     filter = {
         "type": "bubble",
         "hero": {
@@ -220,7 +212,7 @@ def get_search_filter_json(type):
                 "type": "uri",
                 "uri": "http://linecorp.com/"
             },
-            "url": type_url
+            "url": 'https://i.imgur.com/V6gyhBr.png'
         },
         "body": {
             "type": "box",
@@ -280,7 +272,7 @@ def get_search_filter_json(type):
                     "action": {
                         "type": "message",
                         "label": "位置訊息",
-                        "text": "設定位置訊息"
+                        "text": "SET LOCATION"
                     }
                 },
                 {
@@ -290,7 +282,7 @@ def get_search_filter_json(type):
                     "action": {
                         "type": "message",
                         "label": "搜索半徑",
-                        "text": "設定搜索半徑"
+                        "text": "SET RADIUS"
                     }
                 },
                 {
@@ -300,7 +292,7 @@ def get_search_filter_json(type):
                     "action": {
                         "type": "message",
                         "label": "價錢標準",
-                        "text": "設定價錢標準"
+                        "text": "SET PRICE LEVEL"
                     }
                 },
                 {
@@ -310,7 +302,7 @@ def get_search_filter_json(type):
                     "action": {
                         "type": "message",
                         "label": "關鍵字搜尋",
-                        "text": "使用關鍵字搜尋"
+                        "text": "SET KEYWORD"
                     }
                 },
                 {
@@ -320,7 +312,7 @@ def get_search_filter_json(type):
                     "action": {
                         "type": "message",
                         "label": "顯示所有設定",
-                        "text": "顯示所有設定"
+                        "text": "SHOW ALL SETTINGS"
                     }
                 },
                 {
@@ -330,7 +322,17 @@ def get_search_filter_json(type):
                     "action": {
                         "type": "message",
                         "label": "開始搜尋",
-                        "text": "開始搜尋"
+                        "text": "START"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "離開",
+                        "text": "QUIT"
                     }
                 }
             ],
@@ -339,3 +341,315 @@ def get_search_filter_json(type):
         }
     }
     return filter
+
+
+# ============================================================================
+
+def get_search_recipe_json():
+    filter = {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "size": "full",
+            "aspectMode": "cover",
+            "action": {
+                "type": "uri",
+                "uri": "http://linecorp.com/"
+            },
+            "url": 'https://i.imgur.com/wCBqkDm.png'
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "請選擇菜譜的類型",
+                    "weight": "bold",
+                    "size": "xl"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "小提示",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                },
+                                {
+                                    "type": "text",
+                                    "text": '可以使用"搜尋特定菜譜"來尋找想做的菜喔!!!',
+                                    "wrap": True,
+                                    "color": "#666666",
+                                    "size": "sm",
+                                    "flex": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "backgroundColor": "#F5F5DC"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "contents": [
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "點心與甜點",
+                        "text": "GET DESSERT RECIPE"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "家常料理",
+                        "text": "GET CUISINE RECIPE"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "異國料理",
+                        "text": "GET EXOTIC RECIPE"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "冰品與飲品",
+                        "text": "GET DRINK RECIPE"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "搜尋特定菜譜",
+                        "text": "GET SPECIFIC RECIPE"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "離開",
+                        "text": "QUIT"
+                    }
+                }
+            ],
+            "flex": 0,
+            "backgroundColor": "#F5F5DC"
+        }
+    }
+    return filter
+
+# ============================================================================
+
+def get_dessert_recipe_json():
+    carousel_images = {
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/5X5L31I.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "RANDOM"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/uD7sauw.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "PUDDING"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/0tdUAoZ.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "CHOCOLATE"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/O6GyVqt.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "COOKIE"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/aMovNEI.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "BREAD"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/l1TQyNh.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "QUIT"
+                    }
+                }
+            }
+        ]
+    }
+    return carousel_images
+
+
+
+def get_single_recipe_json(image_url, name, ingredient, web_url):
+    background_url = 'https://i.imgur.com/TL7E1pM.png'
+
+    recipe = {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "url": image_url,
+            "size": "full",
+            "aspectRatio": "20:13",
+            "aspectMode": "cover"
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": name,
+                    "weight": "bold",
+                    "size": "xl"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "食材",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                },
+                                {
+                                    "type": "text",
+                                    "text": ingredient,
+                                    "wrap": True,
+                                    "color": "#666666",
+                                    "size": "sm",
+                                    "flex": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "backgroundColor": "#F5F5DC"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "xs",
+            "contents": [
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "action": {
+                    "type": "uri",
+                    "label": "查看作法",
+                    "uri": web_url
+                },
+                "height": "sm",
+                "margin": "none",
+                "offsetTop": "sm"
+                }
+            ],
+            "flex": 0,
+            "backgroundColor": "#F5F5DC"
+        }
+    }
+    return recipe
