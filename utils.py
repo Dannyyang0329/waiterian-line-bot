@@ -336,6 +336,36 @@ def show_dessert_recipe_category(event):
     )
 
 
+def show_dish_recipe_category(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(
+            alt_text = 'carousel images',
+            contents = get_dish_recipe_json()
+        )
+    )
+
+
+def show_drink_recipe_category(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(
+            alt_text = 'carousel images',
+            contents = get_drink_recipe_json()
+        )
+    )
+
+
+def show_exotic_recipe_category(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(
+            alt_text = 'carousel images',
+            contents = get_exotic_recipe_json()
+        )
+    )
+
+
 def show_all_recipe(event, type, category):
     selected_recipes = get_recipe(type, category)
    

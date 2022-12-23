@@ -18,17 +18,14 @@ class Waiterian_Machine(GraphMachine):
                 return True
         elif self.state == 'search_restaurant':
             if msg == 'QUIT':
-                print("Cur state : idle")
                 print_quit_msg(event, 'search_restaurant')
                 return True
         elif self.state == 'search_recipe':
             if msg == 'QUIT':
-                print("Cur state : idle")
                 print_quit_msg(event, 'search_recipe')
                 return True
         elif self.state == 'help':
-            # if msg == 'QUIT':
-                print("Cur state : idle")
+            if msg == 'QUIT':
                 print_quit_msg(event, 'help')
                 return True
         return False
@@ -136,6 +133,10 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'QUIT':
                 show_search_recipe(event)
                 return True
+        elif self.state == 'drink_recipe':
+            if msg == 'QUIT':
+                show_search_recipe(event)
+                return True
         elif self.state == 'wait_target_recipe':
             if msg == 'QUIT':
                 show_search_recipe(event)
@@ -177,8 +178,30 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'INFORMATION':
                 show_information(event, self.state)
                 return True
+            elif msg == 'RANDOM':
+                show_all_recipe(event, 'dish', 'random')
+                return True
+            elif msg == 'BEEF':
+                show_all_recipe(event, 'dish', 'beef')
+                return True
+            elif msg == 'PORK':
+                show_all_recipe(event, 'dish', 'pork')
+                return True
+            elif msg == 'CHICKEN':
+                show_all_recipe(event, 'dish', 'chicken')
+                return True
+            elif msg == 'SEAFOOD':
+                show_all_recipe(event, 'dish', 'seafood')
+                return True
+            elif msg == 'EGG':
+                show_all_recipe(event, 'dish', 'egg')
+                return True
+            elif msg == 'VEGETABLE':
+                show_all_recipe(event, 'dish', 'vegetable')
+                return True
         elif self.state == 'search_recipe':
-            if msg == 'GET DISH RECIPE':
+            if msg == 'GET CUISINE RECIPE':
+                show_dish_recipe_category(event)
                 return True
         return False
 
@@ -189,8 +212,24 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'INFORMATION':
                 show_information(event, self.state)
                 return True
+            elif msg == 'JAPANESE':
+                show_all_recipe(event, 'exotic', 'japanese')
+                return True
+            elif msg == 'AMERICAN':
+                show_all_recipe(event, 'exotic', 'american')
+                return True
+            elif msg == 'KOREAN':
+                show_all_recipe(event, 'exotic', 'korean')
+                return True
+            elif msg == 'ITALIAN':
+                show_all_recipe(event, 'exotic', 'italian')
+                return True
+            elif msg == 'THAI':
+                show_all_recipe(event, 'exotic', 'thai')
+                return True
         elif self.state == 'search_recipe':
             if msg == 'GET EXOTIC RECIPE':
+                show_exotic_recipe_category(event)
                 return True
         return False
 
@@ -201,8 +240,18 @@ class Waiterian_Machine(GraphMachine):
             if msg == 'INFORMATION':
                 show_information(event, self.state)
                 return True
+            elif msg == 'TOPPINGS':
+                show_all_recipe(event, 'drink', 'toppings')
+                return True
+            elif msg == 'DRINK':
+                show_all_recipe(event, 'drink', 'drink')
+                return True
+            elif msg == 'ICE':
+                show_all_recipe(event, 'drink', 'ice')
+                return True
         elif self.state == 'search_recipe':
             if msg == 'GET DRINK RECIPE':
+                show_drink_recipe_category(event)
                 return True
         return False
 

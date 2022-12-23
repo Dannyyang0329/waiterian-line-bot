@@ -653,3 +653,287 @@ def get_single_recipe_json(image_url, name, ingredient, web_url):
         }
     }
     return recipe
+
+# ============================================================================
+
+def get_dish_recipe_json():
+    carousel_images = {
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/5X5L31I.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "RANDOM"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/NbtLncN.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "BEEF"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/DgeGMHT.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "PORK"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/PtbGAQ7.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "CHICKEN"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/UuaR9Un.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "SEAFOOD"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/cqAfjHc.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "EGG"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/Ws8sAHK.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "VEGETABLE"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/l1TQyNh.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "QUIT"
+                    }
+                }
+            }
+        ]
+    }
+    return carousel_images
+
+# ============================================================================
+
+def get_exotic_recipe_json():
+    carousel_images = {
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/cfGygWY.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "JAPANESE"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/rYGv1NM.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "AMERICAN"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/hyCqoCr.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "KOREAN"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/cB64sj9.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "ITALIAN"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/L9uS9c8.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "THAI"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/l1TQyNh.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "QUIT"
+                    }
+                }
+            }
+        ]
+    }
+    return carousel_images
+
+# ============================================================================
+
+def get_drink_recipe_json():
+    carousel_images = {
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/JgOtibn.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "TOPPINGS"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/oCiA4Mv.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "DRINK"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/eZSAvrV.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "ICE"
+                    }
+                }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/l1TQyNh.png",
+                    "aspectMode": "cover",
+                    "size": "full",
+                    "action": {
+                        "type": "message",
+                        "label": "action",
+                        "text": "QUIT"
+                    }
+                }
+            }
+        ]
+    }
+    return carousel_images
+
+
