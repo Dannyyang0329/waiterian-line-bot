@@ -138,9 +138,7 @@ class Waiterian_Machine(GraphMachine):
                 show_search_recipe(event)
                 return True
         elif self.state == 'wait_target_recipe':
-            if msg == 'QUIT':
-                show_search_recipe(event)
-                return True
+            return get_the_target_recipe(event)
 
         return False
 
@@ -263,7 +261,11 @@ class Waiterian_Machine(GraphMachine):
                 show_information(event, self.state)
                 return True
         elif self.state == 'search_recipe':
-            if msg == 'INPUT RECIPE':
+            if msg == 'GET SPECIFIC RECIPE':
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="可以輸入要搜尋的食譜了!")
+                )
                 return True
         return False
 

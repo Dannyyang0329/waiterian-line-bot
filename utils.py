@@ -366,8 +366,21 @@ def show_exotic_recipe_category(event):
     )
 
 
+def get_the_target_recipe(event):
+    if event.message.type == 'text':
+        tmp = event.message.text.split(" ")
+        if len(tmp) > 1 and tmp[0] == '>>':
+            show_all_recipe(event, 'wait_target_recipe', tmp[1])
+            return True
+    return False
+
+
 def show_all_recipe(event, type, category):
-    selected_recipes = get_recipe(type, category)
+    selected_recipes = []
+    if type == 'wait_target_recipe':
+        selected_recipes = get_search_recipe(category)
+    else:
+        selected_recipes = get_recipe(type, category)
    
     if len(selected_recipes) == 0:
         line_bot_api.reply_message(
