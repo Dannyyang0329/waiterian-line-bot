@@ -423,12 +423,36 @@ def show_help_manual_category(event):
 
 def show_help_manual(event, type):
     if type == 'search_restaurant':
+        text  = '幫助: 搜尋餐廳\n'
+        text += ' Step1 : 點選RESTAURANT的icon開始準備搜尋餐廳\n'
+        text += ' Step2 : 根據下列的篩選器選擇您要搜尋的範圍\n'
+        text += '  • 位置訊息(必選)\n'
+        text += '  • 搜索半徑(可選)\n'
+        text += '  • 價錢標準[0-3](可選)\n'
+        text += '  • 關鍵字搜尋(可選)\n'
+        text += ' Step3 : 點選"顯示所有設定"確認設定正確\n'
+        text += ' Step4 : 點選"開始搜尋"即可尋找出附近的餐廳\n'
+        text += ' Step4 : 點選"離開"回到主選單\n'
+        text += '提醒: 篩選器的搜尋需要用">> "來作為前綴\n'
+        text += '  • e.g. >> 鍋燒意麵'
+
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="尚未有搜尋餐廳的幫助!請等待更新")
+            TextSendMessage(text=text)
         )
     elif type == 'search_recipe':
+        text  = '幫助: 搜尋食譜\n'
+        text += ' Step1 : 點選RECIPE的icon開始準備搜尋食譜\n'
+        text += ' Step2 : 選擇您想要的食譜類型或是特定菜餚的名字\n'
+        text += '  • 點心與甜點\n'
+        text += '  • 家常料理\n'
+        text += '  • 異國料理\n'
+        text += '  • 冰品與飲品\n'
+        text += ' Step3 : 選擇更詳細的分類\n'
+        text += ' Step4 : 點選"QUIT"回到主選單\n'
+        text += '提醒: 輸入特定菜姚名稱時需要用">> "來作為前綴\n'
+        text += '  • e.g. >> 壽司'
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="尚未有搜尋食譜的幫助!請等待更新")
+            TextSendMessage(text=text)
         )

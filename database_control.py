@@ -140,22 +140,3 @@ def delete_data(name):
     cursor.close()
     conn.close()
 
-
-# load_dotenv()
-# drop_state_table()
-# create_state_table()
-# record = ('user', 'my_name', 'my_state')
-# insert_data(record)
-# update_state('Ua66deff62ba92155a59a3f1063f555b8', 'state', 'search_filter')
-# update_state('Ua66deff62ba92155a59a3f1063f555b8', 'state', 'idle')
-# update_state('my_name', 'lng', 122.345)
-# update_state('my_name', 'radius', 1500)
-# update_state('my_name', 'min_p', 2)
-# update_state('my_name', 'key_w', 'beef')
-# delete_data('my_name')
-
-# print(find_data('Ua66deff62ba92155a59a3f1063f555b8')[0])
-# print(type(find_data('my_name')))
-
-# print(select_data())
-

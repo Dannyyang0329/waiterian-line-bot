@@ -50,6 +50,149 @@ def get_mainmenu_json():
 
 # ============================================================================
 
+def get_search_restaurant_json():
+    filter = {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "size": "full",
+            "aspectMode": "cover",
+            "action": {
+                "type": "uri",
+                "uri": "http://linecorp.com/"
+            },
+            "url": 'https://i.imgur.com/V6gyhBr.png'
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "請選擇篩選條件",
+                    "weight": "bold",
+                    "size": "xl"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "小提示",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "位置訊息一定要選喔!!!",
+                                    "wrap": True,
+                                    "color": "#666666",
+                                    "size": "sm",
+                                    "flex": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "backgroundColor": "#F5F5DC"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "contents": [
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "位置訊息",
+                        "text": "SET LOCATION"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "搜索半徑",
+                        "text": "SET RADIUS"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "價錢標準",
+                        "text": "SET PRICE LEVEL"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "關鍵字搜尋",
+                        "text": "SET KEYWORD"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "顯示所有設定",
+                        "text": "SHOW ALL SETTINGS"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "開始搜尋",
+                        "text": "START"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {
+                        "type": "message",
+                        "label": "離開",
+                        "text": "QUIT"
+                    }
+                }
+            ],
+            "flex": 0,
+            "backgroundColor": "#F5F5DC"
+        }
+    }
+    return filter
+
+# ============================================================================
+
 def get_single_restaurant_json(image_url, name, grade, price_level, address, web_url):
     whole_star_url = 'https://i.imgur.com/XOV82JN.png'
     empty_star_url = 'https://i.imgur.com/1HeQOqo.png'
@@ -201,150 +344,6 @@ def get_single_restaurant_json(image_url, name, grade, price_level, address, web
 
 # ============================================================================
 
-def get_search_restaurant_json():
-    filter = {
-        "type": "bubble",
-        "hero": {
-            "type": "image",
-            "size": "full",
-            "aspectMode": "cover",
-            "action": {
-                "type": "uri",
-                "uri": "http://linecorp.com/"
-            },
-            "url": 'https://i.imgur.com/V6gyhBr.png'
-        },
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "請選擇篩選條件",
-                    "weight": "bold",
-                    "size": "xl"
-                },
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "margin": "lg",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "baseline",
-                            "spacing": "sm",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "小提示",
-                                    "color": "#aaaaaa",
-                                    "size": "sm",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "位置訊息一定要選喔!!!",
-                                    "wrap": True,
-                                    "color": "#666666",
-                                    "size": "sm",
-                                    "flex": 5
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "backgroundColor": "#F5F5DC"
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "sm",
-            "contents": [
-                {
-                    "type": "separator"
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "位置訊息",
-                        "text": "SET LOCATION"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "搜索半徑",
-                        "text": "SET RADIUS"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "價錢標準",
-                        "text": "SET PRICE LEVEL"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "關鍵字搜尋",
-                        "text": "SET KEYWORD"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "顯示所有設定",
-                        "text": "SHOW ALL SETTINGS"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "開始搜尋",
-                        "text": "START"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {
-                        "type": "message",
-                        "label": "離開",
-                        "text": "QUIT"
-                    }
-                }
-            ],
-            "flex": 0,
-            "backgroundColor": "#F5F5DC"
-        }
-    }
-    return filter
-
-
-# ============================================================================
-
 def get_search_recipe_json():
     filter = {
         "type": "bubble",
@@ -478,6 +477,88 @@ def get_search_recipe_json():
 
 # ============================================================================
 
+def get_single_recipe_json(image_url, name, ingredient, web_url):
+    recipe = {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "url": image_url,
+            "size": "full",
+            "aspectRatio": "20:13",
+            "aspectMode": "cover"
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": name,
+                    "weight": "bold",
+                    "size": "xl"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "食材",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                },
+                                {
+                                    "type": "text",
+                                    "text": ingredient,
+                                    "wrap": True,
+                                    "color": "#666666",
+                                    "size": "sm",
+                                    "flex": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "backgroundColor": "#F5F5DC"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "xs",
+            "contents": [
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "action": {
+                    "type": "uri",
+                    "label": "查看作法",
+                    "uri": web_url
+                },
+                "height": "sm",
+                "margin": "none",
+                "offsetTop": "sm"
+                }
+            ],
+            "flex": 0,
+            "backgroundColor": "#F5F5DC"
+        }
+    }
+    return recipe
+
+# ============================================================================
+
 def get_dessert_recipe_json():
     carousel_images = {
         "type": "carousel",
@@ -569,90 +650,6 @@ def get_dessert_recipe_json():
         ]
     }
     return carousel_images
-
-
-
-def get_single_recipe_json(image_url, name, ingredient, web_url):
-    background_url = 'https://i.imgur.com/TL7E1pM.png'
-
-    recipe = {
-        "type": "bubble",
-        "hero": {
-            "type": "image",
-            "url": image_url,
-            "size": "full",
-            "aspectRatio": "20:13",
-            "aspectMode": "cover"
-        },
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": name,
-                    "weight": "bold",
-                    "size": "xl"
-                },
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "margin": "lg",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "baseline",
-                            "spacing": "sm",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "食材",
-                                    "color": "#aaaaaa",
-                                    "size": "sm",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "text",
-                                    "text": ingredient,
-                                    "wrap": True,
-                                    "color": "#666666",
-                                    "size": "sm",
-                                    "flex": 5
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "backgroundColor": "#F5F5DC"
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "xs",
-            "contents": [
-                {
-                    "type": "separator"
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "action": {
-                    "type": "uri",
-                    "label": "查看作法",
-                    "uri": web_url
-                },
-                "height": "sm",
-                "margin": "none",
-                "offsetTop": "sm"
-                }
-            ],
-            "flex": 0,
-            "backgroundColor": "#F5F5DC"
-        }
-    }
-    return recipe
 
 # ============================================================================
 

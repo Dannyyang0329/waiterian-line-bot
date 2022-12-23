@@ -554,8 +554,8 @@ def get_fsm(init_state):
     return machine
 
 
-machine = get_fsm('idle')
+# machine = get_fsm('idle')
 # print(machine.state)
 # print(machine.advance('FOOD'))
 # print(machine.state)
-get_fsm("idle").get_graph().draw("fsm.png", prog="dot", format="png")
+# get_fsm("idle").get_graph().draw("fsm.png", prog="dot", format="png")

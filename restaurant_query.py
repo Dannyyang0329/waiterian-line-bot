@@ -53,14 +53,3 @@ def get_restaurant_url(restaurant):
     id = restaurant['place_id']
     return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}&query_place_id={id}"
 
-# load_dotenv()
-# restaurant = get_restaurant(22.993, 120.219, 3000, None, None, "RESTAURANT")
-# restaurant = get_restaurant(23.308, 120.721, 5000, None, None, "RESTAURANT")
-# print(restaurant)
-# print()
-# print()
-#
-# print(get_restaurant_url(restaurant))
-#
-# print(get_restaurant_photo(restaurant))
-
