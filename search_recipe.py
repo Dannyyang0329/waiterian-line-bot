@@ -157,22 +157,25 @@ def get_recipe(type, category):
     for random_page in page_idx:
         page_url = target_url + '?page=' + str(random_page)
 
-        # get recipes in target page
-        response = requests.get(page_url, headers=agent)
-        soup = BeautifulSoup(response.text, 'html.parser')
+        try:
+            # get recipes in target page
+            response = requests.get(page_url, headers=agent)
+            soup = BeautifulSoup(response.text, 'html.parser')
 
-        # pick 5 recipe
-        recipes = soup.find_all("li", {"class": "browse-recipe-item"})
-        recipes_num = len(recipes)
-        recipe_idices = random.sample(list(range(recipes_num)), 5 if recipes_num >= 5 else recipes_num)
+            # pick 5 recipe
+            recipes = soup.find_all("li", {"class": "browse-recipe-item"})
+            recipes_num = len(recipes)
+            recipe_idices = random.sample(list(range(recipes_num)), 5 if recipes_num >= 5 else recipes_num)
 
-        for recipe_idx in recipe_idices:
-            recipe = {}
-            recipe.update({"name": recipes[recipe_idx].find('h2').get('data-title')})
-            recipe.update({"href": "https://icook.tw" + recipes[recipe_idx].find('a').get('href')})
-            recipe.update({"img_url": recipes[recipe_idx].find('img').get('data-src')})
-            recipe.update({"ingredient": recipes[recipe_idx].find_all("p", {"class" : "browse-recipe-content-ingredient"})[0].text[4:-1]})
-            selected_recipes.append(recipe)
+            for recipe_idx in recipe_idices:
+                recipe = {}
+                recipe.update({"name": recipes[recipe_idx].find('h2').get('data-title')})
+                recipe.update({"href": "https://icook.tw" + recipes[recipe_idx].find('a').get('href')})
+                recipe.update({"img_url": recipes[recipe_idx].find('img').get('data-src')})
+                recipe.update({"ingredient": recipes[recipe_idx].find_all("p", {"class" : "browse-recipe-content-ingredient"})[0].text[4:-1]})
+                selected_recipes.append(recipe)
+        except Exception as e:
+            print(e)
     return selected_recipes
 
 
@@ -188,14 +191,17 @@ def get_search_recipe(target):
     recipes = soup.find_all("li", {"class": "browse-recipe-item"})
     recipes_num = len(recipes)
 
-    for i in range(10):
-        if i < recipes_num:
-            recipe = {}
-            recipe.update({"name": recipes[i].find('h2').get('data-title')})
-            recipe.update({"href": "https://icook.tw" + recipes[i].find('a').get('href')})
-            recipe.update({"img_url": recipes[i].find('img').get('data-src')})
-            recipe.update({"ingredient": recipes[i].find_all("p", {"class" : "browse-recipe-content-ingredient"})[0].text[4:-1]})
-            selected_recipes.append(recipe)
+    try:
+        for i in range(10):
+            if i < recipes_num:
+                recipe = {}
+                recipe.update({"name": recipes[i].find('h2').get('data-title')})
+                recipe.update({"href": "https://icook.tw" + recipes[i].find('a').get('href')})
+                recipe.update({"img_url": recipes[i].find('img').get('data-src')})
+                recipe.update({"ingredient": recipes[i].find_all("p", {"class" : "browse-recipe-content-ingredient"})[0].text[4:-1]})
+                selected_recipes.append(recipe)
+    except Exception as e:
+        print(e)
 
     return selected_recipes
 
