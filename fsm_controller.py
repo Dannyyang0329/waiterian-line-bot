@@ -16,6 +16,9 @@ class Waiterian_Machine(GraphMachine):
             elif msg == 'WAITERIAN':
                 show_mainmenu(event)
                 return True
+            elif msg == "FSM":
+                show_FSM(event)
+                return True
         elif self.state == 'search_restaurant':
             if msg == 'QUIT':
                 print_quit_msg(event, 'search_restaurant')

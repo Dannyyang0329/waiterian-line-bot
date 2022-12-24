@@ -84,6 +84,16 @@ def show_mainmenu(event):
     )
 
 
+def show_FSM(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        ImageSendMessage(
+            original_content_url='https://i.imgur.com/GsRHP8v.png',
+            preview_image_url='https://i.imgur.com/GsRHP8v.png'
+        )
+    )
+
+
 def show_search_filter(event):
     # update_state(get_id(event), 'state', 'search_filter')
     line_bot_api.reply_message(
