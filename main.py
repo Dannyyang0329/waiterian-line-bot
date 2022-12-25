@@ -36,6 +36,7 @@ machines = {}
 @handler.add(MessageEvent)
 def handle_message(event):
     id = get_id(event)
+    get_state(event)
     if id not in machines:
         machines.update({id: get_fsm('idle')})
 
