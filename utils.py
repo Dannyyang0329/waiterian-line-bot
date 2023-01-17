@@ -44,33 +44,152 @@ def get_state(event):
 def show_information(event, state):
     msg = event.message.text.upper() if event.message.type == 'text' else ''
     if msg == 'INFORMATION':
-        info = "您現在的狀態是"
+        info = ""
         if state == 'idle':
-            info += 'idle'
+            info += """
+您現在的狀態是:idle
+您可以使用以下的操作:
+1. SEARCH RESTAURANT
+根據您等等設定的條件，搜尋特定區域的餐廳。
+2. SEARCH RECIPE
+根據您等等設定的條件，搜尋食譜。
+3. INFORMATION
+顯示幫助訊息，幫助您更快了解如何使用機器人!
+            """
         elif state == 'search_restaurant':
-            info += 'search_restaurant'
+            info += """
+您現在的狀態是:search_restaurant
+您需要設定條件，幫助機器人尋找附近的餐廳
+* 只有正在營業的餐廳會顯示
+* 隱藏美食機器人尚未有辦法搜尋到
+* 各項設定會保留您上次搜尋的設定
+* 若是想要退出現在的狀態，請點選離開，或輸入QUIT
+
+您可以使用以下的操作:
+1. 位置訊息 (SET LOCATION)
+使用line的位置訊息功能，提供您想搜尋的地點
+2. 搜索半徑 (SET RADIUS)
+根據您設定的地點，設定搜索半徑(公尺為單位)
+(注意: 設定需以">> "作為前綴符號)
+(例如: >> 1000)
+3. 價錢標準 (SET PRICE LEVEL)
+設定價錢標準(google map的標準)
+(注意: 請輸入">> 0~3"進行設定)
+(例如: >> 1)
+4. 關鍵字搜尋 (SET KEYWORD)
+使用關鍵字進行搜尋
+(注意: 設定需以">> "作為前綴符號)
+(例如: >> 鍋燒意麵)
+5. 顯示所有設定 (SHOW ALL SETTINGS)
+顯示現在設定的條件，如果確定就可以開時搜尋了!
+6. 開始搜尋 (START)
+顯示機器人搜尋到的結果，搜尋完後仍可以更改條件繼續搜尋
+若想要結束搜尋，請點選離開或輸入QUIT
+7. 離開 (QUIT)
+離開當前狀態，回到idle狀態。
+            """
         elif state == 'get_location':
-            info += 'get_location'
+            info += """
+您現在的狀態是:get_location
+請傳送位置訊息(手機版)，設定成功時會再次顯示搜尋選單。
+            """
         elif state == 'get_radius':
-            info += 'get_radius'
+            info += """
+您現在的狀態是:get_radius
+請輸入搜尋半徑(公尺為單位)
+設定成功時會再次顯示搜尋選單。
+(注意: 設定需以">> "作為前綴符號)
+(例如: >> 1000)
+            """
         elif state == 'get_price_level':
-            info += 'get_price_level'
+            info += """
+您現在的狀態是:get_price_level
+請設定價錢標準(google map的標準)
+設定成功時會再次顯示搜尋選單。
+(注意: 請輸入">> 0~3"進行設定)
+(例如: >> 1)
+            """
         elif state == 'get_keyword':
-            info += 'get_keyword'
+            info += """
+您現在的狀態是:get_keyword
+請輸入關鍵字
+設定成功時會再次顯示搜尋選單。
+(注意: 設定需以">> "作為前綴符號)
+(例如: >> 鍋燒意麵)
+            """
         elif state == 'search_recipe':
-            info += 'search_recipe'
+            info += """
+您現在的狀態是:search_recipe
+選擇您想要的食譜類型
+您可以使用以下的操作:
+1. 點心與甜點 (GET DESSERT RECIPE)
+2. 家常料理 (GET CUISINE RECIPE)
+3. 異國料理 (GET EXOTIC RECIPE)
+4. 冰品與飲品 (GET DRINK RECIPE)
+5. 搜尋特定菜譜 (GET SPECIFIC RECIPE)
+6. 離開 (QUIT)
+            """
         elif state == 'dessert_recipe':
-            info += 'dessert_recipe'
+            info += """
+您現在的狀態是:dessert_recipe
+請選擇各種甜點類型
+可選擇以下幾種
+1. 隨機 (RANDOM)
+2. 布丁 (PUDDING)
+3. 巧克力 (CHOCOLATE)
+4. 餅乾 (COOKIE)
+5. 麵包 (BREAD)
+(注意:可以連續搜尋，所以要結束搜尋的時候，請點選QUIT離開甜點食譜的搜尋)
+            """
         elif state == 'dish_recipe':
-            info += 'dish_recipe'
+            info += """
+您現在的狀態是:dish_recipe
+請選擇各種家庭料理
+可選擇以下幾種
+1. 隨機 (RANDOM)
+2. 牛肉 (BEEF)
+3. 豬肉 (PORK)
+4. 雞肉 (CHICKEN)
+5. 海鮮 (SEAFOOD)
+6. 蛋 (EGG)
+7. 蔬菜 (VEGETABLE)
+(注意:可以連續搜尋，所以要結束搜尋的時候，請點選QUIT離開家庭料理食譜的搜尋)
+            """
         elif state == 'exotic_recipe':
-            info += 'exotic_recipe'
+            info += """
+您現在的狀態是:exotic_recipe
+請選擇各種異國料理
+可選擇以下幾種
+1. 日式 (JAPANESE)
+2. 美式 (AMERICAN)
+3. 韓式 (KOREAN)
+4. 義式 (ITALIAN)
+5. 泰式 (THAI)
+(注意:可以連續搜尋，所以要結束搜尋的時候，請點選QUIT離開異國料理食譜的搜尋)
+            """
         elif state == 'drink_recipe':
-            info += 'drink_recipe'
+            info += """
+您現在的狀態是:drink_recipe
+請選擇各種飲品或配料
+可選擇以下幾種
+1. 配料 (TOPPINGS)
+2. 飲品 (DRINK)
+3. 冰品 (ICE)
+(注意:可以連續搜尋，所以要結束搜尋的時候，請點選QUIT離開飲品或配料的搜尋)
+            """
         elif state == 'wait_target_recipe':
-            info += 'wait_target_recipe'
+            info += """
+您現在的狀態是:wait_target_recipe
+請輸入您想要搜尋的類型
+(注意: 設定需以">> "作為前綴符號)
+(例如: >> 三杯雞)
+(注意:可以連續搜尋，所以要結束搜尋的時候，請點選QUIT離開飲品或配料的搜尋)
+            """
         elif state == 'help':
-            info += 'help'
+            info += """
+您現在的狀態是:help
+請離開(QUIT)來退出當前狀態!
+            """
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=info))
 
 
@@ -286,7 +405,7 @@ def get_the_location(event):
         update_state(get_id(event), 'lat', event.message.latitude)
         update_state(get_id(event), 'lng', event.message.longitude)
         # update_state(get_id(event), 'state', 'search_filter')
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定位置訊息成功!'))
+        # line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定位置訊息成功!'))
         show_search_filter(event)
 
         return True
@@ -299,7 +418,7 @@ def get_the_radius(event):
         if len(tmp) > 1 and tmp[0] == '>>':
             update_state(get_id(event), 'radius', int(tmp[1]))
             # update_state(get_id(event), 'state', 'search_filter')
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定搜索半徑成功!'))
+            # line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定搜索半徑成功!'))
             show_search_filter(event)
             return True
     return False
@@ -311,7 +430,7 @@ def get_the_price_level(event):
         if len(tmp) > 1 and tmp[0] == '>>':
             update_state(get_id(event), 'min_p', int(tmp[1]))
             # update_state(get_id(event), 'state', 'search_filter')
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定價錢標準成功!'))
+            # line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定價錢標準成功!'))
             show_search_filter(event)
             return True
     return False
@@ -323,7 +442,7 @@ def get_the_keyword(event):
         if len(tmp) > 1 and tmp[0] == '>>':
             update_state(get_id(event), 'key_w', tmp[1])
             # update_state(get_id(event), 'state', 'search_filter')
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定關鍵字成功!'))
+            # line_bot_api.reply_message(event.reply_token, TextSendMessage(text='設定關鍵字成功!'))
             show_search_filter(event)
             return True
     return False
