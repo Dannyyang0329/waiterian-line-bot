@@ -53,3 +53,9 @@ def get_restaurant_url(restaurant):
     id = restaurant['place_id']
     return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}&query_place_id={id}"
 
+
+if __name__ == "__main__":
+    print(get_restaurant(25, 121, None, None, None))
+
+
+

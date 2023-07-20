@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 
 
 def create_state_table():
-    conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require')
+    # conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require', port=5432)
+    print(os.getenv('DB_URL', default='NOT FOUND'))
+    conn = psycopg2.connect(os.getenv('DB_URL', default=''), sslmode = 'require', port=5432)
     cursor = conn.cursor()
 
     create_table_query = '''
@@ -139,4 +141,9 @@ def delete_data(name):
 
     cursor.close()
     conn.close()
+
+
+if __name__ == "__main__":
+    load_dotenv()
+    create_state_table()
 
